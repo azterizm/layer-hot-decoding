@@ -35,16 +35,24 @@ def main(argv=None):
     ap.add_argument("--mode", default="step")
     ap.add_argument("--max-tokens", type=int, default=256)
     ap.add_argument("--warmup-s", type=int, default=90)
+    ap.add_argument("--n-code", type=int, default=3)
+    ap.add_argument("--n-prose", type=int, default=3)
+    ap.add_argument("--passes", type=int, default=1, help="extra passes run the prompts in reverse order")
     a = ap.parse_args(argv)
-    out = snapshot.new_results_dir(f"ab_ours_{a.model}")
+    out = snapshot.new_results_dir(f"ab_ours_{a.model}_{a.mode}")
     snapshot.wait_quiet()
     env = {"short_before": snapshot.short_snapshot(), "software": snapshot.software(),
            "models": [snapshot.model_info(MODELS[a.model])], "config": vars(a)}
     s = load(a.model)
     head = AffineExit.load(s, data_dir(a.model) / "heads" / f"affine_E{a.exit}_V16384.npz").half()
-    dec = LayerHotDecoder(s, head, a.exit, a.kmax, a.tau, mode=a.mode)
+    if a.mode == "pipelined":
+        from layerhot.pipelined import PipelinedLayerHotDecoder
+
+        dec = PipelinedLayerHotDecoder(s, head, a.exit)
+    else:
+        dec = LayerHotDecoder(s, head, a.exit, a.kmax, a.tau, mode=a.mode)
     test = [it for it in P.build() if it["split"] == "test"]
-    items = [it for it in test if it["kind"] == "code"][:3] + [it for it in test if it["kind"] == "chat"][:3]
+    items = [it for it in test if it["kind"] == "code"][:a.n_code] + [it for it in test if it["kind"] == "chat"][:a.n_prose]
     ids = [P.encode(s.tokenizer, it) for it in items]
 
     # warm-up to a steady thermal state
@@ -54,7 +62,11 @@ def main(argv=None):
         dec.generate(ids[0], 128)
 
     rows = []
-    for it, x in zip(items, ids):
+    order = []
+    for k in range(a.passes):
+        pairs = list(zip(items, ids))
+        order += pairs if k % 2 == 0 else pairs[::-1]
+    for it, x in order:
         r = {"id": it["id"], "kind": "code" if it["kind"] == "code" else "prose"}
         ref, a1 = mlx_greedy(s, x, a.max_tokens)
         o1, st1 = dec.generate(x, a.max_tokens)
@@ -87,6 +99,9 @@ def main(argv=None):
     for k in ("code", "prose"):
         summ[f"ratio_{k}"] = statistics.mean(r["ratio"] for r in rows if r["kind"] == k)
     summ["ratio_all"] = statistics.mean(r["ratio"] for r in rows)
+    rs = [r["ratio"] for r in rows]
+    summ.update({"ratio_min": min(rs), "ratio_max": max(rs), "ratio_stdev": statistics.stdev(rs) if len(rs) > 1 else 0.0,
+                 "n_measurements": len(rs), "share_above_1": sum(x > 1 for x in rs) / len(rs)})
     (out / "summary.json").write_text(json.dumps(summ, indent=2))
     print(json.dumps({k: v for k, v in summ.items() if k != "rows"}, indent=2), "\ndiscard:", env["discard"])
     print("results:", out)

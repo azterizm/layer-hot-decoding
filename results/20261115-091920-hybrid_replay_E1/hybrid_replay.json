@@ -1,0 +1,140 @@
+{
+  "exit": 1,
+  "n_sequences": 40,
+  "count_check_gen_vs_cycles": [
+    [
+      256,
+      257
+    ],
+    [
+      256,
+      257
+    ],
+    [
+      256,
+      257
+    ],
+    [
+      256,
+      257
+    ],
+    [
+      256,
+      256
+    ],
+    [
+      256,
+      256
+    ],
+    [
+      256,
+      256
+    ],
+    [
+      256,
+      256
+    ],
+    [
+      256,
+      257
+    ],
+    [
+      256,
+      257
+    ]
+  ],
+  "taus": {
+    "0.0": {
+      "dflash_tokens_per_cycle": 2.584958932238193,
+      "share_cycles_ending_in_rejection": 0.9933264887063655,
+      "extra_tokens_per_cycle": 0.19840862422997946,
+      "hit_rate_at_failure": 0.19974160206718347,
+      "relative_token_gain": 0.07675503922152715,
+      "wasted_sibling_rate_per_accepted_position": 0.6722267206477733,
+      "est_sibling_rows_per_cycle": 10.28180943394658,
+      "by_kind": {
+        "code": {
+          "extra_tokens_per_cycle": 0.2324159021406728,
+          "relative_token_gain": 0.07983193277310925
+        },
+        "chat": {
+          "extra_tokens_per_cycle": 0.15428900402993667,
+          "relative_token_gain": 0.07160032059845045
+        },
+        "prose": {
+          "extra_tokens_per_cycle": 0.23619271445358403,
+          "relative_token_gain": 0.07976190476190477
+        }
+      }
+    },
+    "0.3": {
+      "dflash_tokens_per_cycle": 2.584958932238193,
+      "share_cycles_ending_in_rejection": 0.9933264887063655,
+      "extra_tokens_per_cycle": 0.16350102669404518,
+      "hit_rate_at_failure": 0.16459948320413437,
+      "relative_token_gain": 0.06325091847880052,
+      "wasted_sibling_rate_per_accepted_position": 0.3802429149797571,
+      "est_sibling_rows_per_cycle": 5.867144751390402,
+      "by_kind": {
+        "code": {
+          "extra_tokens_per_cycle": 0.191131498470948,
+          "relative_token_gain": 0.06565126050420168
+        },
+        "chat": {
+          "extra_tokens_per_cycle": 0.12723085780080598,
+          "relative_token_gain": 0.059043547956184876
+        },
+        "prose": {
+          "extra_tokens_per_cycle": 0.19506462984723855,
+          "relative_token_gain": 0.06587301587301587
+        }
+      }
+    },
+    "0.5": {
+      "dflash_tokens_per_cycle": 2.584958932238193,
+      "share_cycles_ending_in_rejection": 0.9933264887063655,
+      "extra_tokens_per_cycle": 0.12012320328542095,
+      "hit_rate_at_failure": 0.12093023255813953,
+      "relative_token_gain": 0.04647006255585344,
+      "wasted_sibling_rate_per_accepted_position": 0.19449392712550606,
+      "est_sibling_rows_per_cycle": 3.0375321101680117,
+      "by_kind": {
+        "code": {
+          "extra_tokens_per_cycle": 0.13761467889908258,
+          "relative_token_gain": 0.047268907563025216
+        },
+        "chat": {
+          "extra_tokens_per_cycle": 0.09499136442141623,
+          "relative_token_gain": 0.04408228693561315
+        },
+        "prose": {
+          "extra_tokens_per_cycle": 0.1445358401880141,
+          "relative_token_gain": 0.04880952380952381
+        }
+      }
+    },
+    "0.7": {
+      "dflash_tokens_per_cycle": 2.584958932238193,
+      "share_cycles_ending_in_rejection": 0.9933264887063655,
+      "extra_tokens_per_cycle": 0.08495893223819302,
+      "hit_rate_at_failure": 0.0855297157622739,
+      "relative_token_gain": 0.03286664680766557,
+      "wasted_sibling_rate_per_accepted_position": 0.07659919028340081,
+      "est_sibling_rows_per_cycle": 1.233946786489205,
+      "by_kind": {
+        "code": {
+          "extra_tokens_per_cycle": 0.09327217125382263,
+          "relative_token_gain": 0.03203781512605042
+        },
+        "chat": {
+          "extra_tokens_per_cycle": 0.06505469199769717,
+          "relative_token_gain": 0.03018968741651082
+        },
+        "prose": {
+          "extra_tokens_per_cycle": 0.1128084606345476,
+          "relative_token_gain": 0.0380952380952381
+        }
+      }
+    }
+  }
+}

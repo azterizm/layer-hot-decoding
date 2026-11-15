@@ -1,0 +1,56 @@
+{
+  "llama_dflash_q8_n7": {
+    "code": {
+      "ratio": 1.515226903040591,
+      "spec_tok_s": 56.663868377259455,
+      "serial_tok_s": 37.09554451556959,
+      "tokens_per_target_pass": 3.7264069264069266,
+      "identical": 3,
+      "n": 3
+    },
+    "prose": {
+      "ratio": 0.8712169250367195,
+      "spec_tok_s": 27.889156616187147,
+      "serial_tok_s": 32.02044415780485,
+      "tokens_per_target_pass": 2.3004479405659346,
+      "identical": 2,
+      "n": 3
+    },
+    "all": {
+      "ratio": 1.1932219140386553,
+      "spec_tok_s": 42.2765124967233,
+      "serial_tok_s": 34.55799433668722,
+      "tokens_per_target_pass": 3.0134274334864304,
+      "identical": 5,
+      "n": 6
+    },
+    "discard": []
+  },
+  "llama_dflash_q8_n3": {
+    "code": {
+      "ratio": 1.2949615365644698,
+      "spec_tok_s": 49.145435762298156,
+      "serial_tok_s": 37.84534537957894,
+      "tokens_per_target_pass": 2.803971327617212,
+      "identical": 3,
+      "n": 3
+    },
+    "prose": {
+      "ratio": 0.8652311550796907,
+      "spec_tok_s": 29.498142667664055,
+      "serial_tok_s": 34.08047928549177,
+      "tokens_per_target_pass": 2.091699736528335,
+      "identical": 2,
+      "n": 3
+    },
+    "all": {
+      "ratio": 1.0800963458220803,
+      "spec_tok_s": 39.3217892149811,
+      "serial_tok_s": 35.96291233253535,
+      "tokens_per_target_pass": 2.4478355320727734,
+      "identical": 5,
+      "n": 6
+    },
+    "discard": []
+  }
+}

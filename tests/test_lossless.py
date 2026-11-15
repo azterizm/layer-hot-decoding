@@ -8,7 +8,7 @@ differences accumulate; measured: one step of batching moves logits by up to 1 b
 (0.25 at |logit| ~ 38 on 1.7B; 0.31 on 0.6B). Every mismatch is printed with its margin.
 
 Env: LH_MODEL (default 0.6B), LH_EXIT (2), LH_KMAX (4), LH_TAU (0.5), LH_HEAD (affine|adapter|lens),
-     LH_MODE (step|chain),
+     LH_MODE (step|chain|pipelined),
      LH_N (number of prompts, 24), LH_TOKENS (128)
 """
 
@@ -54,7 +54,12 @@ def setup():
         head = AdapterExit.load(s, heads / f"adapter_E{EXIT}_V16384.npz").half()
     else:
         head = LensExit(s)
-    dec = LayerHotDecoder(s, head, EXIT, KMAX, TAU, mode=MODE)
+    if MODE == "pipelined":  # step 6.3: kmax = 2, no gate, all decisions on device
+        from layerhot.pipelined import PipelinedLayerHotDecoder
+
+        dec = PipelinedLayerHotDecoder(s, head, EXIT)
+    else:
+        dec = LayerHotDecoder(s, head, EXIT, KMAX, TAU, mode=MODE)
     items = [it for it in P.build() if it["split"] == "test"][:N]
     return s, dec, items
 

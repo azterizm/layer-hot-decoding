@@ -290,6 +290,124 @@ llama.cpp: generated / (generated - accepted draft tokens)).
 - The layer-hot loop accepts 1.15-1.23 tokens per pass for almost no draft cost, which is far too
   few to pay for its two host round trips per cycle: 0.86-0.91x.
 
+## Step 6: extensions, in the order suggested by steps 1-5
+
+### 6.1. Quantized DFlash drafters (`bench/draft_quant.py`)
+
+Each variant runs in its own process and is compared A-B-B-A with the same backend's serial
+decoding on the 6 step 5 prompts (256 tokens), after a 60 s warm-up to a steady GPU temperature.
+llama.cpp: two llama-servers side by side (target alone; target + drafter; per-request
+speculative settings are compiled out of llama-server). dflash-mlx: stock mlx-lm target vs a
+dflash-mlx bundle whose drafter dflash-mlx quantizes itself (`draft_quant`). Drafters quantized
+with `llama-quantize`. `results/20261115-093214-draft_quant`, every variant valid.
+
+| variant | drafter size | vs serial: all | code | prose | tokens per target pass | spec / serial tok/s |
+|---|---|---|---|---|---|---|
+| llama.cpp DFlash, bf16, 15 draft tokens | 1025 MB | 0.81x | 1.05x | 0.57x | 3.49 | 26.7 / 32.2 |
+| llama.cpp DFlash, Q8_0, 15 | 545 MB | 0.82x | 1.07x | 0.57x | 3.49 | 28.2 / 33.4 |
+| llama.cpp DFlash, Q4_0, 15 | 288 MB | 0.78x | 0.99x | 0.57x | 3.32 | 26.9 / 33.5 |
+| llama.cpp DFlash2, bf16, 7 | 2690 MB | 1.11x | 1.20x | 1.01x | 3.03 | 37.5 / 33.7 |
+| llama.cpp DFlash2, Q8_0, 7 | 1429 MB | **1.22x** | **1.31x** | 1.13x | 3.03 | 39.6 / 32.2 |
+| llama.cpp DFlash2, Q4_0, 7 | 853 MB | **1.22x** | 1.31x | **1.14x** | 2.97 | 39.9 / 32.4 |
+| dflash-mlx, bf16 | 1025 MB | 0.82x | 1.01x | 0.63x | 2.56 | 32.8 / 39.4 |
+| dflash-mlx, w8 | ~545 MB | 0.88x | 1.08x | 0.67x | 2.63 | 34.6 / 39.0 |
+| dflash-mlx, w4 | ~290 MB | 0.87x | 1.07x | 0.68x | 2.60 | 34.8 / 39.6 |
+
+Quantizing the 1 GB DFlash drafter does nothing on llama.cpp (0.78-0.82x at every precision), so
+drafter bytes were not its problem. Verify width was: with the default `--spec-draft-n-max 15`
+every verify pushes 16 rows through the target, and step 1 measured 8 rows at 1.77x one row.
+Same Q8_0 drafter, fewer draft tokens (`results/20261115-102252-draft_quant`, both valid):
+
+| llama.cpp DFlash, Q8_0 drafter | vs serial: all | code | prose | tokens per target pass | spec / serial tok/s |
+|---|---|---|---|---|---|
+| 15 draft tokens (16-row verify, default) | 0.82x | 1.07x | 0.57x | 3.49 | 28.2 / 33.4 |
+| **7 draft tokens** (8-row verify) | **1.19x** | **1.52x** | 0.87x | 3.01 | 42.3 / 34.6 |
+| 3 draft tokens (4-row verify) | 1.08x | 1.30x | 0.87x | 2.45 | 39.3 / 36.0 |
+
+DFlash2 (8-row verify by design) has the opposite problem: its 2.7 GB drafter carries its own
+152k-token head and selector codebooks, and halving those bytes takes it from 1.11x to 1.22x.
+**On this M4 the best reference-stack setting is DFlash2 with a Q8_0/Q4_0 drafter (1.22x of
+llama.cpp serial; 1.31x code, 1.13x prose), or DFlash with 7 draft tokens for code (1.52x).**
+The plan's reference configuration (`--spec-draft-n-max 7` for DFlash2) was already right; the
+DFlash default of 15 is tuned for larger GPUs. dflash-mlx gains 5-6 points from a w8/w4 drafter
+and stays below serial overall (0.87-0.88x), above it on code (1.07-1.08x).
+
+Exactness: each llama.cpp variant matches its serial text on 5/6 prompts (prompt 7 diverges, as
+in step 5); dflash-mlx on 1-2/6 (MLX batched-verify near-ties, step 3).
+
+### 6.2. Exit head inside the DFlash verify batch: replay first (`bench/hybrid_replay.py`)
+
+The hybrid: in each DFlash verify, after layer E of the block rows, the exit head reads row i-1 and
+guesses the token at block position i; where it disagrees with DFlash's draft (and is confident),
+a sibling row with its guess joins the verify. If DFlash's draft fails at position f and the
+sibling at f holds the full model's token, the cycle commits one extra token. Replayed on
+dflash-mlx's own traces (z-lab DFlash, bf16 draft, block 16) for 40 held-out prompts x 256 tokens
+(15 code, 15 chat, 10 prose), with the trained 4B exit heads on teacher-forced states
+(`results/20261115-091920-hybrid_replay_E1` with the traces, `...091926-hybrid_replay_E4`).
+
+DFlash commits 2.58 tokens per cycle on these prompts and 99 % of its cycles end in a rejection.
+
+| exit head | τ | right at DFlash's failure position | extra tokens per cycle | relative token gain | sibling rows per cycle (est.) |
+|---|---|---|---|---|---|
+| E = 1 | 0.0 | 20.0 % | 0.198 | +7.7 % | 10.3 |
+| E = 1 | 0.5 | 12.1 % | 0.120 | +4.6 % | 3.0 |
+| E = 1 | 0.7 | 8.6 % | 0.085 | +3.3 % | 1.2 |
+| E = 4 | 0.0 | 23.9 % | 0.237 | +9.2 % | 9.0 |
+| E = 4 | 0.5 | 19.0 % | 0.189 | +7.3 % | 4.2 |
+| E = 4 | 0.7 | 15.3 % | 0.152 | +5.9 % | 2.4 |
+
+The exit head is right less often where DFlash fails (9-24 %) than on average (27-34 %): DFlash
+already takes the easy tokens. Even with oracle placement (one sibling exactly at the failure
+position) the gain is at most +9 % tokens for one extra row; with a confidence threshold it is
++3-6 % for 1-4 extra rows, before the cost of those rows and of splitting the verify pass after
+layer E. **Below the bar the plan set for 4c/4d and a llama.cpp port; not pursued.** (Sibling rows
+after the failure position sit on a wrong context; their count is estimated with the measured
+per-position disagreement rate.)
+
+### 6.3. The layer-hot loop without host round trips (`layerhot/pipelined.py`)
+
+Same schedule (E = 1, one guess per cycle, always verified, no confidence gate), but every decision
+stays on the GPU: the KV cache keeps its write position as a device scalar (RoPE takes it as an
+array offset, rows are written with a dynamic slice update, a boolean mask hides slots past the
+committed length), a rejected guess row is overwritten by the next cycle instead of trimmed, and
+the next token and committed length are lazy arrays that feed the next cycle's graph. Cycle c+1 is
+built and queued before the host reads cycle c, the overlap mlx-lm gets from `async_eval`.
+
+Correctness (`results/20261115-092312-lossless_4B_affine_E1_k2_pipelined`): its tokens equal the
+step-mode loop's (τ = 0) token for token, so the device-side bookkeeping is exact; against mlx-lm,
+11 of 24 prompts diverge, 10 at a tie distance of 0-1 bf16 steps and one (prompt 107, token 93) at
+3 steps, which fails the test's 2-step limit. Inspected: in the loop's own state the two tokens
+are exactly tied (24.25 vs 24.25); the 0.375 gap on mlx-lm's path is closed by 0.125 + 0.25 of
+drift accumulated over 93 tokens of 2-row verifies (with no gate every cycle is a 2-row verify,
+so drift builds faster than at τ = 0.3). Not a logic error, but the tie window is wider.
+
+Speed, A-B-B-A against mlx-lm in one process, on the charger, after a 90 s warm-up (all valid):
+
+| run | prompts x passes | code | prose | all | range per prompt |
+|---|---|---|---|---|---|
+| `20261115-092726-ab_ours_4B_pipelined` | 6 x 1 | 1.02x | 0.90x | 0.96x | 0.89-1.11 |
+| **`20261115-104800-ab_ours_4B_pipelined`** (definitive) | **12 x 2** (2nd pass reversed) | **0.91x** | **0.84x** | **0.87x** | 0.81-0.98, none > 1 |
+| synchronous loop, step 3 (`20261115-082716-ab_ours_4B`) | 6 x 1 | 0.89x | 0.82x | 0.86x | 0.78-0.96 |
+
+Tokens per sweep 1.15-1.30. Under sustained load the pipelined loop is no faster than the
+synchronous one; short runs on a cooler GPU reach 1.05-1.2x (diagnostic runs, not reported as
+results), the definitive sustained run 0.87x.
+
+Where the time goes (`results/20261115-103414-profile_pipelined_4B`,
+`...104056-cycle_parts_4B`, `...110200-cycle_parts_4B`):
+- The device-side cache and pipelining cost nothing: plain one-row decoding through the same
+  machinery runs at 0.98x of mlx-lm's time per token, token-identical on all 6 prompts.
+- The GPU work of a guess cycle, timed in isolation, is 1.07-1.09 one-row steps (2 rows: 1.04-1.05;
+  draft chain: ~1 ms), cool or hot. That is what step 1 predicted, and at 1.21 tokens per cycle it
+  would be a ~1.1x speedup.
+- In the chained, pipelined loop under sustained load a cycle takes 1.34-1.37 one-row steps
+  (~35 ms vs ~26 ms). In the same loop on a cooler GPU it takes 1.03-1.09. The extra ~7 ms is
+  not GPU arithmetic; the remaining candidates are host-side (graph building plus Metal command
+  encoding inside `async_eval`, about twice the work per cycle of an mlx-lm step, on CPU cores
+  that also throttle on this fanless machine). Not resolved: it needs a profiler (`powermetrics`,
+  Instruments) that requires sudo. `mx.compile` of the cycle, or a C++/llama.cpp port, would cut
+  the host work and is the next thing to try if this loop is pursued.
+
 ## Conclusions and next steps
 
 1. **The hardware half of the idea holds on MLX.** A second token row through a hot weight sweep
@@ -298,29 +416,28 @@ llama.cpp: generated / (generated - accepted draft tokens)).
 2. **The model half is the limit.** With the model frozen, the state after 1-8 layers predicts
    the full model's next token 27-40 % of the time (affine exit), almost all of it punctuation and
    function words. An attention adapter adds 4-5 points at E = 1-2; a top-2 alternative adds 9
-   points but needs a third row. One guess per sweep at that rate caps out near 1.2-1.25 tokens per
-   sweep, i.e. at most ~1.18x even with zero draft overhead.
-3. **Gate.** Step 2 predicted 0.97x / 1.06x / 1.13x (0.6B / 1.7B / 4B), below the 1.2x gate on
-   every model. The loop was built anyway (steps 4 and 5 need it) and is lossless up to bf16
-   tie-breaking; measured on 4B it runs at 0.86x (A-B-B-A) to 0.91x (interleaved) of mlx-lm,
-   because mlx-lm pipelines its steps and the loop needs two host round trips per cycle.
-4. **The reference stack is not a strong baseline on this M4 + Qwen3-4B 4-bit.** DFlash/DFlash2
-   land at 0.86-1.09x of serial despite 2-4.5 tokens per target pass, because a bf16 drafter is a
-   large fraction of the bytes a 4-bit 4B target reads per step.
+   points but needs a third row. One guess per sweep at that rate caps out near 1.2-1.3 tokens per
+   sweep, i.e. at most ~1.1-1.18x even with zero draft overhead.
+3. **Measured, the stand-alone loop does not beat plain decoding.** It is lossless up to bf16
+   tie-breaking. On 4B under sustained load it runs at 0.86x of mlx-lm (synchronous) and 0.87x
+   (pipelined, all decisions on the GPU); its GPU work alone would give ~1.1x, and the rest is lost
+   to host-side cost per cycle under throttling (open question above).
+4. **Inside DFlash, the exit head adds little.** At DFlash's failure positions it is right 9-24 % of
+   the time: +3-9 % tokens per cycle for 1-10 extra verify rows. Below the plan's bar for 4c/4d or a
+   llama.cpp port.
+5. **The reference stack, tuned for this machine, does give a speedup.** Untuned (step 5) it was
+   0.86-1.09x. With the verify kept to 8 rows and the drafter quantized: llama.cpp DFlash2 with a
+   Q8_0/Q4_0 drafter 1.22x of serial (1.31x code, 1.13x prose), DFlash with 7 draft tokens 1.19x
+   (1.52x code). dflash-mlx stays below serial on this M4 (0.87-0.88x with a w8/w4 drafter).
 
-**Next steps (step 6), in order of expected value:**
-1. Quantize the DFlash drafter (Q8_0 / Q4_0 GGUF, 4-bit MLX). On this bandwidth-bound machine the
-   drafter's bytes are the main reason 3-4.5 accepted tokens per pass do not turn into speed; this
-   is the cheapest test with the largest likely effect, and it improves the baseline the idea has
-   to beat.
-2. Exit head inside the DFlash verify batch (the hybrid of the plan). DFlash already verifies
-   8-16 rows, where llama.cpp's c(K) is flat, so extra rows are nearly free there. The exit head
-   costs one layer + a 16k head and can propose the alternative for a low-confidence block
-   position (the step 4b tree, where it does pay: the extra row is free). Worth a replay first on
-   DFlash's own acceptance traces (which position fails, and is the exit head's guess right there).
-3. Only then the stand-alone layer-hot loop: a pipelined version (accept logic and KV bookkeeping
-   on device, e.g. mask rejected rows instead of trimming; `mx.compile` for the draft path) or a
-   llama.cpp port. Its ceiling is the ~1.12-1.18x predicted above, so it is not the route to beat
-   the reference stack on its own.
-4. 4c / 4d (draft-only LoRA, LayerSkip tuning) only if item 2 shows exit-head tokens adding to
-   DFlash's.
+So the goal as stated, beating the reference stack with the layer-hot loop, is not met: the best
+layer-hot result is 0.87x of plain decoding, and the reference stack reaches 1.22x once tuned.
+
+**If this line continues, in order:**
+1. Use the tuned reference stack as the baseline (DFlash2 Q8_0, 8-row verify; DFlash n-max 7 for
+   code) and re-check the plan's references (ANE-resident DFlash, Mirror-SD) against it.
+2. Resolve the pipelined loop's host-side cost (`mx.compile` of the cycle; profile with sudo).
+   Its ceiling is ~1.1x from GPU work, so this only matters if the loop is combined with something.
+3. Layer tuning (4c/4d) only behind its accuracy gate, and only if a shallow exit above ~50 %
+   top-1 looks reachable; at 27-40 % frozen it is the acceptance, not the engineering, that caps
+   the idea.

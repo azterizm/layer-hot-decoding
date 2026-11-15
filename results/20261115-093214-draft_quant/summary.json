@@ -1,0 +1,245 @@
+{
+  "llama_dflash_bf16": {
+    "code": {
+      "ratio": 1.0463768149637878,
+      "spec_tok_s": 35.76395235272783,
+      "serial_tok_s": 33.29561767285035,
+      "tokens_per_target_pass": 4.462610602145486,
+      "identical": 3,
+      "n": 3
+    },
+    "prose": {
+      "ratio": 0.5661468311427317,
+      "spec_tok_s": 17.598003292158705,
+      "serial_tok_s": 31.139012677187463,
+      "tokens_per_target_pass": 2.512936319121886,
+      "identical": 2,
+      "n": 3
+    },
+    "all": {
+      "ratio": 0.8062618230532598,
+      "spec_tok_s": 26.680977822443264,
+      "serial_tok_s": 32.2173151750189,
+      "tokens_per_target_pass": 3.487773460633686,
+      "identical": 5,
+      "n": 6
+    },
+    "discard": []
+  },
+  "llama_dflash_q8": {
+    "code": {
+      "ratio": 1.0724864347829446,
+      "spec_tok_s": 38.56152304630964,
+      "serial_tok_s": 35.19932975355935,
+      "tokens_per_target_pass": 4.462610602145486,
+      "identical": 3,
+      "n": 3
+    },
+    "prose": {
+      "ratio": 0.5685014067790363,
+      "spec_tok_s": 17.936023132044713,
+      "serial_tok_s": 31.590545702081553,
+      "tokens_per_target_pass": 2.520750726936294,
+      "identical": 2,
+      "n": 3
+    },
+    "all": {
+      "ratio": 0.8204939207809905,
+      "spec_tok_s": 28.248773089177178,
+      "serial_tok_s": 33.39493772782045,
+      "tokens_per_target_pass": 3.49168066454089,
+      "identical": 5,
+      "n": 6
+    },
+    "discard": []
+  },
+  "llama_dflash_q4": {
+    "code": {
+      "ratio": 0.9933676947330097,
+      "spec_tok_s": 35.68418933778322,
+      "serial_tok_s": 35.22140808563511,
+      "tokens_per_target_pass": 4.14287556415216,
+      "identical": 3,
+      "n": 3
+    },
+    "prose": {
+      "ratio": 0.5715156650251165,
+      "spec_tok_s": 18.09357017411526,
+      "serial_tok_s": 31.683511685302157,
+      "tokens_per_target_pass": 2.504857394671264,
+      "identical": 2,
+      "n": 3
+    },
+    "all": {
+      "ratio": 0.7824416798790631,
+      "spec_tok_s": 26.88887975594924,
+      "serial_tok_s": 33.452459885468635,
+      "tokens_per_target_pass": 3.323866479411712,
+      "identical": 5,
+      "n": 6
+    },
+    "discard": []
+  },
+  "llama_dflash2_bf16": {
+    "code": {
+      "ratio": 1.1964208664463702,
+      "spec_tok_s": 43.13322198256227,
+      "serial_tok_s": 35.903797345244385,
+      "tokens_per_target_pass": 3.2303546520413993,
+      "identical": 3,
+      "n": 3
+    },
+    "prose": {
+      "ratio": 1.0134873275915475,
+      "spec_tok_s": 31.844742560220894,
+      "serial_tok_s": 31.459584581913216,
+      "tokens_per_target_pass": 2.839047016656125,
+      "identical": 2,
+      "n": 3
+    },
+    "all": {
+      "ratio": 1.1049540970189589,
+      "spec_tok_s": 37.48898227139158,
+      "serial_tok_s": 33.6816909635788,
+      "tokens_per_target_pass": 3.034700834348762,
+      "identical": 5,
+      "n": 6
+    },
+    "discard": []
+  },
+  "llama_dflash2_q8": {
+    "code": {
+      "ratio": 1.3076401558025097,
+      "spec_tok_s": 45.0589297644503,
+      "serial_tok_s": 34.214043378682746,
+      "tokens_per_target_pass": 3.218115218115218,
+      "identical": 3,
+      "n": 3
+    },
+    "prose": {
+      "ratio": 1.1334681815067567,
+      "spec_tok_s": 34.07118798603611,
+      "serial_tok_s": 30.136069970710793,
+      "tokens_per_target_pass": 2.839047016656125,
+      "identical": 2,
+      "n": 3
+    },
+    "all": {
+      "ratio": 1.2205541686546333,
+      "spec_tok_s": 39.5650588752432,
+      "serial_tok_s": 32.17505667469677,
+      "tokens_per_target_pass": 3.0285811173856714,
+      "identical": 5,
+      "n": 6
+    },
+    "discard": []
+  },
+  "llama_dflash2_q4": {
+    "code": {
+      "ratio": 1.3047779280085354,
+      "spec_tok_s": 45.80619274358149,
+      "serial_tok_s": 34.88966539822487,
+      "tokens_per_target_pass": 3.13858906914861,
+      "identical": 3,
+      "n": 3
+    },
+    "prose": {
+      "ratio": 1.135748075883625,
+      "spec_tok_s": 33.93671667225237,
+      "serial_tok_s": 29.913590978620444,
+      "tokens_per_target_pass": 2.8080564000649284,
+      "identical": 2,
+      "n": 3
+    },
+    "all": {
+      "ratio": 1.22026300194608,
+      "spec_tok_s": 39.87145470791693,
+      "serial_tok_s": 32.401628188422656,
+      "tokens_per_target_pass": 2.973322734606769,
+      "identical": 5,
+      "n": 6
+    },
+    "discard": []
+  },
+  "mlx_dflash_bf16": {
+    "code": {
+      "ratio": 1.0124677895536651,
+      "spec_tok_s": 41.91140412561371,
+      "serial_tok_s": 41.29166390955187,
+      "tokens_per_target_pass": 2.971954022988506,
+      "identical": 1,
+      "n": 3
+    },
+    "prose": {
+      "ratio": 0.6306848425277056,
+      "spec_tok_s": 23.627028251107046,
+      "serial_tok_s": 37.42769224110799,
+      "tokens_per_target_pass": 2.1440015922774545,
+      "identical": 0,
+      "n": 3
+    },
+    "all": {
+      "ratio": 0.8215763160406855,
+      "spec_tok_s": 32.769216188360375,
+      "serial_tok_s": 39.35967807532993,
+      "tokens_per_target_pass": 2.55797780763298,
+      "identical": 1,
+      "n": 6
+    },
+    "discard": []
+  },
+  "mlx_dflash_w8": {
+    "code": {
+      "ratio": 1.0815952116709813,
+      "spec_tok_s": 44.20899019191363,
+      "serial_tok_s": 40.751954109085744,
+      "tokens_per_target_pass": 3.0868281815650236,
+      "identical": 2,
+      "n": 3
+    },
+    "prose": {
+      "ratio": 0.6733256819922415,
+      "spec_tok_s": 25.047923180825936,
+      "serial_tok_s": 37.176760497360405,
+      "tokens_per_target_pass": 2.1642512077294684,
+      "identical": 0,
+      "n": 3
+    },
+    "all": {
+      "ratio": 0.8774604468316114,
+      "spec_tok_s": 34.62845668636978,
+      "serial_tok_s": 38.964357303223075,
+      "tokens_per_target_pass": 2.6255396946472462,
+      "identical": 2,
+      "n": 6
+    },
+    "discard": []
+  },
+  "mlx_dflash_w4": {
+    "code": {
+      "ratio": 1.0651935508529538,
+      "spec_tok_s": 43.68715548198155,
+      "serial_tok_s": 40.942384689405266,
+      "tokens_per_target_pass": 3.0655064197090742,
+      "identical": 1,
+      "n": 3
+    },
+    "prose": {
+      "ratio": 0.6788547154876123,
+      "spec_tok_s": 25.94470490832682,
+      "serial_tok_s": 38.203600241133856,
+      "tokens_per_target_pass": 2.1340714258255487,
+      "identical": 0,
+      "n": 3
+    },
+    "all": {
+      "ratio": 0.872024133170283,
+      "spec_tok_s": 34.81593019515418,
+      "serial_tok_s": 39.57299246526956,
+      "tokens_per_target_pass": 2.5997889227673117,
+      "identical": 1,
+      "n": 6
+    },
+    "discard": []
+  }
+}
