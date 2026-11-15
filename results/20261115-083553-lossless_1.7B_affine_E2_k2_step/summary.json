@@ -1,0 +1,125 @@
+{
+  "config": {
+    "model": "1.7B",
+    "exit": 2,
+    "kmax": 2,
+    "tau": 0.3,
+    "head": "affine",
+    "mode": "step",
+    "n": 24,
+    "tokens": 128
+  },
+  "passed": true,
+  "mismatches": [
+    {
+      "prompt": 7,
+      "kind": "chat",
+      "token": 63,
+      "margin": 0.0,
+      "bf16_steps": 0.0
+    },
+    {
+      "prompt": 28,
+      "kind": "chat",
+      "token": 87,
+      "margin": 0.0,
+      "bf16_steps": 0.0
+    },
+    {
+      "prompt": 35,
+      "kind": "chat",
+      "token": 68,
+      "margin": 0.125,
+      "bf16_steps": 1.0
+    },
+    {
+      "prompt": 39,
+      "kind": "prose",
+      "token": 33,
+      "margin": 0.0,
+      "bf16_steps": 0.0
+    },
+    {
+      "prompt": 48,
+      "kind": "prose",
+      "token": 22,
+      "margin": 0.0,
+      "bf16_steps": 0.0
+    },
+    {
+      "prompt": 55,
+      "kind": "prose",
+      "token": 11,
+      "margin": 0.0,
+      "bf16_steps": 0.0
+    },
+    {
+      "prompt": 56,
+      "kind": "chat",
+      "token": 15,
+      "margin": 0.5,
+      "bf16_steps": 2.0
+    },
+    {
+      "prompt": 59,
+      "kind": "code",
+      "token": 40,
+      "margin": 0.125,
+      "bf16_steps": 1.0
+    },
+    {
+      "prompt": 81,
+      "kind": "chat",
+      "token": 2,
+      "margin": 0.0,
+      "bf16_steps": 0.0
+    },
+    {
+      "prompt": 93,
+      "kind": "prose",
+      "token": 30,
+      "margin": 0.125,
+      "bf16_steps": 1.0
+    },
+    {
+      "prompt": 94,
+      "kind": "chat",
+      "token": 29,
+      "margin": 0.25,
+      "bf16_steps": 1.0
+    },
+    {
+      "prompt": 104,
+      "kind": "chat",
+      "token": 80,
+      "margin": 0.0,
+      "bf16_steps": 0.0
+    },
+    {
+      "prompt": 105,
+      "kind": "prose",
+      "token": 75,
+      "margin": 0.125,
+      "bf16_steps": 1.0
+    },
+    {
+      "prompt": 114,
+      "kind": "prose",
+      "token": 41,
+      "margin": 0.125,
+      "bf16_steps": 1.0
+    },
+    {
+      "prompt": 138,
+      "kind": "chat",
+      "token": 5,
+      "margin": 0.0,
+      "bf16_steps": 0.0
+    }
+  ],
+  "prompts": 24,
+  "tokens": 3072,
+  "tokens_per_sweep": 1.294,
+  "near_tie_mismatches": 15,
+  "real_mismatches": 0
+}

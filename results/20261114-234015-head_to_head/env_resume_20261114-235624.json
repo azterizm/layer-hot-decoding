@@ -1,0 +1,150 @@
+{
+  "kind": "session",
+  "timestamp": "2026-11-14T23:56:24+05:00",
+  "hardware": {
+    "model_name": "MacBook Air",
+    "model_id": "Mac16,12",
+    "chip": "Apple M4",
+    "cores": "10 (4 Performance and 6 Efficiency)",
+    "memory": "16 GB",
+    "macos": "26.6.2",
+    "macos_build": "25G83",
+    "battery_cycle_count": "159",
+    "battery_condition": "Normal",
+    "battery_max_capacity": "100%"
+  },
+  "power": {
+    "source": "AC Power",
+    "on_charger": true,
+    "charge_pct": 100,
+    "battery_state": "charged",
+    "low_power_mode": false
+  },
+  "battery_telemetry": {
+    "SystemLoad": 5316,
+    "SystemPowerIn": 5316,
+    "BatteryPower": 0,
+    "SystemVoltageIn": 20238,
+    "SystemCurrentIn": 262,
+    "Voltage": 13212,
+    "InstantAmperage": 0,
+    "CycleCount": 159,
+    "DesignCapacity": 4629,
+    "NominalChargeCapacity": 4616
+  },
+  "thermal": {
+    "cpu_speed_limit": 100,
+    "raw": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded"
+  },
+  "cpu_idle_sample": {
+    "idle_mean": 90.08,
+    "idle_min": 68.49,
+    "busy_max": 31.51,
+    "samples": 30,
+    "interval_s": 2,
+    "loadavg": [
+      2.13,
+      2.21,
+      1.9
+    ]
+  },
+  "top_processes": {
+    "by_cpu": [
+      {
+        "cpu": 11.2,
+        "mem": 3.3,
+        "rss_mb": 536.0,
+        "comm": "claude"
+      },
+      {
+        "cpu": 8.4,
+        "mem": 0.8,
+        "rss_mb": 131.5,
+        "comm": "WindowServer"
+      },
+      {
+        "cpu": 3.2,
+        "mem": 2.5,
+        "rss_mb": 403.5,
+        "comm": "Chromium"
+      },
+      {
+        "cpu": 3.1,
+        "mem": 1.6,
+        "rss_mb": 262.8,
+        "comm": "Chromium Helper (Renderer)"
+      },
+      {
+        "cpu": 2.3,
+        "mem": 0.1,
+        "rss_mb": 20.0,
+        "comm": "WindowManager"
+      }
+    ],
+    "by_mem": [
+      {
+        "cpu": 0.7,
+        "mem": 3.7,
+        "rss_mb": 599.8,
+        "comm": "Chromium Helper (Renderer)"
+      },
+      {
+        "cpu": 11.2,
+        "mem": 3.3,
+        "rss_mb": 536.0,
+        "comm": "claude"
+      },
+      {
+        "cpu": 3.2,
+        "mem": 2.5,
+        "rss_mb": 403.5,
+        "comm": "Chromium"
+      },
+      {
+        "cpu": 0.0,
+        "mem": 2.4,
+        "rss_mb": 393.6,
+        "comm": "Chromium Helper (Renderer)"
+      },
+      {
+        "cpu": 3.1,
+        "mem": 1.6,
+        "rss_mb": 262.8,
+        "comm": "Chromium Helper (Renderer)"
+      }
+    ]
+  },
+  "memory": {
+    "free_pct": 84,
+    "swap_used_mb": 10139.75,
+    "swap_total_mb": 11264.0,
+    "wired_gb": 2.12,
+    "compressed_gb": 0.27,
+    "free_gb": 0.06
+  },
+  "gpu_idle": {
+    "device_util_pct": 96,
+    "renderer_util_pct": 37,
+    "tiler_util_pct": 37,
+    "in_use_mem_bytes": 455294976,
+    "alloc_mem_bytes": 1741750272
+  },
+  "disk": {
+    "free_gb": 7.6,
+    "total_gb": 228.3,
+    "hf_cache_gb": 23.4,
+    "repo_gb": 5.29
+  },
+  "software": {
+    "python": "3.12.11",
+    "packages": {
+      "mlx": "0.32.4",
+      "mlx-lm": "0.32.2",
+      "mlx-metal": "0.32.4",
+      "numpy": "2.5.4",
+      "transformers": "5.23.0"
+    },
+    "llama_cpp": "e3483e40b02326383a54a23ae71f2bfa9f81181a 2026-11-14 mtmd : allow custom video decoder (#32188)"
+  },
+  "models": []
+}

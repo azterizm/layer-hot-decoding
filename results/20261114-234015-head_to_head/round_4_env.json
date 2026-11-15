@@ -1,0 +1,67 @@
+{
+  "before": {
+    "timestamp": "2026-11-15T08:20:00+05:00",
+    "power": {
+      "source": "AC Power",
+      "on_charger": true,
+      "charge_pct": 100,
+      "battery_state": "charged",
+      "low_power_mode": false
+    },
+    "thermal_limit": 100,
+    "memory": {
+      "free_pct": 83,
+      "swap_used_mb": 10099.75,
+      "swap_total_mb": 11264.0,
+      "wired_gb": 2.01,
+      "compressed_gb": 0.58,
+      "free_gb": 4.01
+    },
+    "cpu": {
+      "idle_mean": 97.56,
+      "idle_min": 97.5,
+      "busy_max": 2.5,
+      "samples": 3,
+      "interval_s": 1,
+      "loadavg": [
+        1.45,
+        1.72,
+        1.92
+      ]
+    },
+    "disk_free_gb": 9.5
+  },
+  "after": {
+    "timestamp": "2026-11-15T08:25:36+05:00",
+    "power": {
+      "source": "AC Power",
+      "on_charger": true,
+      "charge_pct": 100,
+      "battery_state": "charged",
+      "low_power_mode": false
+    },
+    "thermal_limit": 100,
+    "memory": {
+      "free_pct": 83,
+      "swap_used_mb": 10099.75,
+      "swap_total_mb": 11264.0,
+      "wired_gb": 1.9,
+      "compressed_gb": 0.65,
+      "free_gb": 1.32
+    },
+    "cpu": {
+      "idle_mean": 97.33,
+      "idle_min": 95.8,
+      "busy_max": 4.2,
+      "samples": 3,
+      "interval_s": 1,
+      "loadavg": [
+        3.27,
+        2.8,
+        2.36
+      ]
+    },
+    "disk_free_gb": 9.3
+  },
+  "discard": []
+}

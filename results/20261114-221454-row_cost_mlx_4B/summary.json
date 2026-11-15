@@ -1,0 +1,206 @@
+{
+  "models": {
+    "4B": {
+      "layers": 36,
+      "vocab": 151936,
+      "hidden": 2560,
+      "weights": {
+        "model": "mlx-community/Qwen3-4B-4bit",
+        "revision": "4dcb3d101c2a062e5c1d4bb173588c54ea6c4d25",
+        "quantization": {
+          "group_size": 64,
+          "bits": 4
+        },
+        "num_hidden_layers": 36,
+        "hidden_size": 2560,
+        "vocab_size": 151936,
+        "tie_word_embeddings": true,
+        "weight_files": {
+          "model.safetensors": {
+            "bytes": 2263022529,
+            "sha256": "e240c0bdc0ebb0681bf0da0f98d9719fd6ebe269a3633f81542c13e81345651d"
+          }
+        }
+      }
+    }
+  },
+  "c_of_K": [
+    {
+      "model": "4B",
+      "ctx": 512,
+      "K": 1,
+      "sweep_ms": 29.452,
+      "c(K)": 1.0,
+      "body_c(K)": 1.0,
+      "head_share": 0.081
+    },
+    {
+      "model": "4B",
+      "ctx": 512,
+      "K": 2,
+      "sweep_ms": 30.654,
+      "c(K)": 1.041,
+      "body_c(K)": 1.074,
+      "head_share": 0.079
+    },
+    {
+      "model": "4B",
+      "ctx": 512,
+      "K": 3,
+      "sweep_ms": 37.039,
+      "c(K)": 1.258,
+      "body_c(K)": 1.29,
+      "head_share": 0.078
+    },
+    {
+      "model": "4B",
+      "ctx": 512,
+      "K": 4,
+      "sweep_ms": 44.847,
+      "c(K)": 1.523,
+      "body_c(K)": 1.586,
+      "head_share": 0.08
+    },
+    {
+      "model": "4B",
+      "ctx": 512,
+      "K": 8,
+      "sweep_ms": 81.354,
+      "c(K)": 2.762,
+      "body_c(K)": 2.839,
+      "head_share": 0.085
+    },
+    {
+      "model": "4B",
+      "ctx": 2048,
+      "K": 1,
+      "sweep_ms": 31.565,
+      "c(K)": 1.0,
+      "body_c(K)": 1.0,
+      "head_share": 0.076
+    },
+    {
+      "model": "4B",
+      "ctx": 2048,
+      "K": 2,
+      "sweep_ms": 30.374,
+      "c(K)": 0.962,
+      "body_c(K)": 1.094,
+      "head_share": 0.08
+    },
+    {
+      "model": "4B",
+      "ctx": 2048,
+      "K": 3,
+      "sweep_ms": 41.802,
+      "c(K)": 1.324,
+      "body_c(K)": 1.52,
+      "head_share": 0.069
+    },
+    {
+      "model": "4B",
+      "ctx": 2048,
+      "K": 4,
+      "sweep_ms": 51.554,
+      "c(K)": 1.633,
+      "body_c(K)": 1.865,
+      "head_share": 0.07
+    },
+    {
+      "model": "4B",
+      "ctx": 2048,
+      "K": 8,
+      "sweep_ms": 91.232,
+      "c(K)": 2.89,
+      "body_c(K)": 3.284,
+      "head_share": 0.075
+    }
+  ],
+  "parts": [
+    {
+      "model": "4B",
+      "ctx": 512,
+      "what": "head_16k",
+      "ms": 0.557,
+      "share_of_sweep": 0.019
+    },
+    {
+      "model": "4B",
+      "ctx": 512,
+      "what": "head_8k",
+      "ms": 0.398,
+      "share_of_sweep": 0.014
+    },
+    {
+      "model": "4B",
+      "ctx": 512,
+      "what": "head_full",
+      "ms": 2.386,
+      "share_of_sweep": 0.081
+    },
+    {
+      "model": "4B",
+      "ctx": 512,
+      "what": "layers_E1",
+      "ms": 1.291,
+      "share_of_sweep": 0.044
+    },
+    {
+      "model": "4B",
+      "ctx": 512,
+      "what": "layers_E2",
+      "ms": 2.195,
+      "share_of_sweep": 0.075
+    },
+    {
+      "model": "4B",
+      "ctx": 512,
+      "what": "layers_E4",
+      "ms": 3.637,
+      "share_of_sweep": 0.123
+    },
+    {
+      "model": "4B",
+      "ctx": 2048,
+      "what": "head_16k",
+      "ms": 0.497,
+      "share_of_sweep": 0.016
+    },
+    {
+      "model": "4B",
+      "ctx": 2048,
+      "what": "head_8k",
+      "ms": 0.373,
+      "share_of_sweep": 0.012
+    },
+    {
+      "model": "4B",
+      "ctx": 2048,
+      "what": "head_full",
+      "ms": 2.411,
+      "share_of_sweep": 0.076
+    },
+    {
+      "model": "4B",
+      "ctx": 2048,
+      "what": "layers_E1",
+      "ms": 1.368,
+      "share_of_sweep": 0.043
+    },
+    {
+      "model": "4B",
+      "ctx": 2048,
+      "what": "layers_E2",
+      "ms": 2.349,
+      "share_of_sweep": 0.074
+    },
+    {
+      "model": "4B",
+      "ctx": 2048,
+      "what": "layers_E4",
+      "ms": 3.941,
+      "share_of_sweep": 0.125
+    }
+  ],
+  "all_rounds_discarded": false
+}

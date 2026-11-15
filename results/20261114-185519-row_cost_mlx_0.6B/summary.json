@@ -1,0 +1,206 @@
+{
+  "models": {
+    "0.6B": {
+      "layers": 28,
+      "vocab": 151936,
+      "hidden": 1024,
+      "weights": {
+        "model": "mlx-community/Qwen3-0.6B-4bit",
+        "revision": "73e3e38d981303bc594367cd910ea6eb48349da8",
+        "quantization": {
+          "group_size": 64,
+          "bits": 4
+        },
+        "num_hidden_layers": 28,
+        "hidden_size": 1024,
+        "vocab_size": 151936,
+        "tie_word_embeddings": true,
+        "weight_files": {
+          "model.safetensors": {
+            "bytes": 335450584,
+            "sha256": "392e8d466d56100ada00eb82031fb854297fc9e389b7d303eba3af114e87bce2"
+          }
+        }
+      }
+    }
+  },
+  "c_of_K": [
+    {
+      "model": "0.6B",
+      "ctx": 512,
+      "K": 1,
+      "sweep_ms": 5.576,
+      "c(K)": 1.0,
+      "body_c(K)": 1.0,
+      "head_share": 0.196
+    },
+    {
+      "model": "0.6B",
+      "ctx": 512,
+      "K": 2,
+      "sweep_ms": 6.186,
+      "c(K)": 1.109,
+      "body_c(K)": 1.117,
+      "head_share": 0.186
+    },
+    {
+      "model": "0.6B",
+      "ctx": 512,
+      "K": 3,
+      "sweep_ms": 7.406,
+      "c(K)": 1.328,
+      "body_c(K)": 1.423,
+      "head_share": 0.181
+    },
+    {
+      "model": "0.6B",
+      "ctx": 512,
+      "K": 4,
+      "sweep_ms": 9.015,
+      "c(K)": 1.617,
+      "body_c(K)": 1.603,
+      "head_share": 0.185
+    },
+    {
+      "model": "0.6B",
+      "ctx": 512,
+      "K": 8,
+      "sweep_ms": 15.234,
+      "c(K)": 2.732,
+      "body_c(K)": 2.644,
+      "head_share": 0.199
+    },
+    {
+      "model": "0.6B",
+      "ctx": 2048,
+      "K": 1,
+      "sweep_ms": 7.332,
+      "c(K)": 1.0,
+      "body_c(K)": 1.0,
+      "head_share": 0.151
+    },
+    {
+      "model": "0.6B",
+      "ctx": 2048,
+      "K": 2,
+      "sweep_ms": 8.145,
+      "c(K)": 1.111,
+      "body_c(K)": 1.124,
+      "head_share": 0.141
+    },
+    {
+      "model": "0.6B",
+      "ctx": 2048,
+      "K": 3,
+      "sweep_ms": 9.757,
+      "c(K)": 1.331,
+      "body_c(K)": 1.325,
+      "head_share": 0.135
+    },
+    {
+      "model": "0.6B",
+      "ctx": 2048,
+      "K": 4,
+      "sweep_ms": 11.881,
+      "c(K)": 1.62,
+      "body_c(K)": 2.042,
+      "head_share": 0.139
+    },
+    {
+      "model": "0.6B",
+      "ctx": 2048,
+      "K": 8,
+      "sweep_ms": 20.764,
+      "c(K)": 2.832,
+      "body_c(K)": 2.772,
+      "head_share": 0.157
+    }
+  ],
+  "parts": [
+    {
+      "model": "0.6B",
+      "ctx": 512,
+      "what": "head_16k",
+      "ms": 0.441,
+      "share_of_sweep": 0.079
+    },
+    {
+      "model": "0.6B",
+      "ctx": 512,
+      "what": "head_8k",
+      "ms": 0.28,
+      "share_of_sweep": 0.05
+    },
+    {
+      "model": "0.6B",
+      "ctx": 512,
+      "what": "head_full",
+      "ms": 1.091,
+      "share_of_sweep": 0.196
+    },
+    {
+      "model": "0.6B",
+      "ctx": 512,
+      "what": "layers_E1",
+      "ms": 0.443,
+      "share_of_sweep": 0.079
+    },
+    {
+      "model": "0.6B",
+      "ctx": 512,
+      "what": "layers_E2",
+      "ms": 0.929,
+      "share_of_sweep": 0.167
+    },
+    {
+      "model": "0.6B",
+      "ctx": 512,
+      "what": "layers_E4",
+      "ms": 1.315,
+      "share_of_sweep": 0.236
+    },
+    {
+      "model": "0.6B",
+      "ctx": 2048,
+      "what": "head_16k",
+      "ms": 0.317,
+      "share_of_sweep": 0.043
+    },
+    {
+      "model": "0.6B",
+      "ctx": 2048,
+      "what": "head_8k",
+      "ms": 0.287,
+      "share_of_sweep": 0.039
+    },
+    {
+      "model": "0.6B",
+      "ctx": 2048,
+      "what": "head_full",
+      "ms": 1.104,
+      "share_of_sweep": 0.151
+    },
+    {
+      "model": "0.6B",
+      "ctx": 2048,
+      "what": "layers_E1",
+      "ms": 0.503,
+      "share_of_sweep": 0.069
+    },
+    {
+      "model": "0.6B",
+      "ctx": 2048,
+      "what": "layers_E2",
+      "ms": 0.93,
+      "share_of_sweep": 0.127
+    },
+    {
+      "model": "0.6B",
+      "ctx": 2048,
+      "what": "layers_E4",
+      "ms": 1.18,
+      "share_of_sweep": 0.161
+    }
+  ],
+  "all_rounds_discarded": false
+}

@@ -1,0 +1,11 @@
+[project]
+name = "layer-hot-decoding"
+version = "0.1.0"
+description = "Layer-hot token parallelism: proof of concept"
+requires-python = ">=3.12,<3.13"
+dependencies = ["mlx", "mlx-lm", "numpy", "huggingface_hub", "pyarrow", "pytest"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-s"

@@ -1,0 +1,140 @@
+{
+  "mlx_serial": {
+    "code": {
+      "median_tok_s": 39.150731334670304,
+      "ratio_vs_serial_same_round": 1.0,
+      "tokens_per_target_pass": 1.0,
+      "session1_median_tok_s": 40.503702410101056,
+      "session2_median_tok_s": 32.982237774528976
+    },
+    "prose": {
+      "median_tok_s": 37.421980368602085,
+      "ratio_vs_serial_same_round": 1.0,
+      "tokens_per_target_pass": 1.0,
+      "session1_median_tok_s": 40.68600231575867,
+      "session2_median_tok_s": 33.564570187680125
+    },
+    "all": {
+      "median_tok_s": 38.286355851636195,
+      "ratio_vs_serial_same_round": 1.0,
+      "tokens_per_target_pass": 1.0,
+      "session1_median_tok_s": 40.53796064492829,
+      "session2_median_tok_s": 33.471745872481335
+    }
+  },
+  "ours": {
+    "code": {
+      "median_tok_s": 36.725300783344274,
+      "ratio_vs_serial_same_round": 0.9256167719297607,
+      "tokens_per_target_pass": 1.2263666666666666,
+      "session1_median_tok_s": 38.113105170149865,
+      "session2_median_tok_s": 30.339927932473962
+    },
+    "prose": {
+      "median_tok_s": 32.98703608515056,
+      "ratio_vs_serial_same_round": 0.8916520956468824,
+      "tokens_per_target_pass": 1.1534333333333333,
+      "session1_median_tok_s": 37.495080041038314,
+      "session2_median_tok_s": 30.14141223264464
+    },
+    "all": {
+      "median_tok_s": 34.856168434247415,
+      "ratio_vs_serial_same_round": 0.9086344337883215,
+      "tokens_per_target_pass": 1.1899,
+      "session1_median_tok_s": 37.89268999963198,
+      "session2_median_tok_s": 30.215209375253757
+    }
+  },
+  "dflash_mlx": {
+    "code": {
+      "median_tok_s": 42.19188488403378,
+      "ratio_vs_serial_same_round": 1.0066490179333545,
+      "tokens_per_target_pass": 2.971954022988506,
+      "session1_median_tok_s": 42.83665184196729,
+      "session2_median_tok_s": 32.515224047040384
+    },
+    "prose": {
+      "median_tok_s": 28.32262835917972,
+      "ratio_vs_serial_same_round": 0.7220144014052027,
+      "tokens_per_target_pass": 2.1440015922774545,
+      "session1_median_tok_s": 30.081932896095296,
+      "session2_median_tok_s": 23.642790680492155
+    },
+    "all": {
+      "median_tok_s": 35.25725662160675,
+      "ratio_vs_serial_same_round": 0.8643317096692786,
+      "tokens_per_target_pass": 2.55797780763298,
+      "session1_median_tok_s": 35.91411528570195,
+      "session2_median_tok_s": 28.77469317316979
+    }
+  },
+  "llama_serial": {
+    "code": {
+      "median_tok_s": 38.123005572708784,
+      "ratio_vs_serial_same_round": 1.0,
+      "tokens_per_target_pass": 1.0,
+      "session1_median_tok_s": 36.725852906984755,
+      "session2_median_tok_s": 38.19782368274056
+    },
+    "prose": {
+      "median_tok_s": 36.20843650696454,
+      "ratio_vs_serial_same_round": 1.0,
+      "tokens_per_target_pass": 1.0,
+      "session1_median_tok_s": 34.22711352738855,
+      "session2_median_tok_s": 38.25142677821883
+    },
+    "all": {
+      "median_tok_s": 37.16572103983666,
+      "ratio_vs_serial_same_round": 1.0,
+      "tokens_per_target_pass": 1.0,
+      "session1_median_tok_s": 35.43490452225426,
+      "session2_median_tok_s": 38.21066607689967
+    }
+  },
+  "llama_dflash": {
+    "code": {
+      "median_tok_s": 43.97222269866775,
+      "ratio_vs_serial_same_round": 1.149184018601192,
+      "tokens_per_target_pass": 4.462610602145486,
+      "session1_median_tok_s": 29.42939825872309,
+      "session2_median_tok_s": 39.425781275969804
+    },
+    "prose": {
+      "median_tok_s": 22.204130313333227,
+      "ratio_vs_serial_same_round": 0.5984888900572041,
+      "tokens_per_target_pass": 2.512936319121886,
+      "session1_median_tok_s": 18.550006837487388,
+      "session2_median_tok_s": 23.61056019803982
+    },
+    "all": {
+      "median_tok_s": 33.08817650600049,
+      "ratio_vs_serial_same_round": 0.873836454329198,
+      "tokens_per_target_pass": 3.487773460633686,
+      "session1_median_tok_s": 22.90402194691079,
+      "session2_median_tok_s": 29.83709706104881
+    }
+  },
+  "llama_dflash2": {
+    "code": {
+      "median_tok_s": 40.29693502154775,
+      "ratio_vs_serial_same_round": 1.1464522996829076,
+      "tokens_per_target_pass": 3.2303546520413993,
+      "session1_median_tok_s": 38.37101463610934,
+      "session2_median_tok_s": 46.55773131295906
+    },
+    "prose": {
+      "median_tok_s": 33.74587279588602,
+      "ratio_vs_serial_same_round": 1.024570710518272,
+      "tokens_per_target_pass": 2.839047016656125,
+      "session1_median_tok_s": 33.152665948582126,
+      "session2_median_tok_s": 33.37990375330183
+    },
+    "all": {
+      "median_tok_s": 37.02140390871689,
+      "ratio_vs_serial_same_round": 1.0855115051005897,
+      "tokens_per_target_pass": 3.034700834348762,
+      "session1_median_tok_s": 35.681436774712175,
+      "session2_median_tok_s": 41.22015170505214
+    }
+  }
+}

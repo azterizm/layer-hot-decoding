@@ -1,0 +1,111 @@
+{
+  "config": {
+    "model": "4B",
+    "exit": 1,
+    "kmax": 2,
+    "tau": 0.3,
+    "head": "affine",
+    "mode": "step",
+    "n": 24,
+    "tokens": 128
+  },
+  "passed": true,
+  "mismatches": [
+    {
+      "prompt": 7,
+      "kind": "chat",
+      "token": 68,
+      "margin": 0.25,
+      "bf16_steps": 1.0
+    },
+    {
+      "prompt": 20,
+      "kind": "code",
+      "token": 114,
+      "margin": 0.0,
+      "bf16_steps": 0.0
+    },
+    {
+      "prompt": 39,
+      "kind": "prose",
+      "token": 26,
+      "margin": 0.125,
+      "bf16_steps": 1.0
+    },
+    {
+      "prompt": 42,
+      "kind": "prose",
+      "token": 21,
+      "margin": 0.125,
+      "bf16_steps": 1.0
+    },
+    {
+      "prompt": 55,
+      "kind": "prose",
+      "token": 25,
+      "margin": 0.125,
+      "bf16_steps": 1.0
+    },
+    {
+      "prompt": 56,
+      "kind": "chat",
+      "token": 84,
+      "margin": 0.0,
+      "bf16_steps": 0.0
+    },
+    {
+      "prompt": 59,
+      "kind": "code",
+      "token": 20,
+      "margin": 0.0,
+      "bf16_steps": 0.0
+    },
+    {
+      "prompt": 81,
+      "kind": "chat",
+      "token": 74,
+      "margin": 0.125,
+      "bf16_steps": 1.0
+    },
+    {
+      "prompt": 93,
+      "kind": "prose",
+      "token": 53,
+      "margin": 0.125,
+      "bf16_steps": 1.0
+    },
+    {
+      "prompt": 105,
+      "kind": "prose",
+      "token": 39,
+      "margin": 0.0,
+      "bf16_steps": 0.0
+    },
+    {
+      "prompt": 107,
+      "kind": "chat",
+      "token": 35,
+      "margin": 0.0,
+      "bf16_steps": 0.0
+    },
+    {
+      "prompt": 125,
+      "kind": "code",
+      "token": 104,
+      "margin": 0.0,
+      "bf16_steps": 0.0
+    },
+    {
+      "prompt": 138,
+      "kind": "chat",
+      "token": 74,
+      "margin": 0.0,
+      "bf16_steps": 0.0
+    }
+  ],
+  "prompts": 24,
+  "tokens": 3072,
+  "tokens_per_sweep": 1.227,
+  "near_tie_mismatches": 13,
+  "real_mismatches": 0
+}

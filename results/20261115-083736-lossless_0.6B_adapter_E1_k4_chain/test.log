@@ -1,0 +1,25 @@
+mismatch prompt=7 (chat) at token 27: margin 0.0000 = 0.0 bf16 steps at top logit 18.50
+mismatch prompt=20 (code) at token 62: margin 0.1250 = 1.0 bf16 steps at top logit 19.62
+mismatch prompt=28 (chat) at token 63: margin 0.1250 = 1.0 bf16 steps at top logit 22.88
+mismatch prompt=35 (chat) at token 3: margin 0.0000 = 0.0 bf16 steps at top logit 18.88
+mismatch prompt=39 (prose) at token 18: margin 0.1250 = 2.0 bf16 steps at top logit 15.00
+mismatch prompt=42 (prose) at token 31: margin 0.1250 = 1.0 bf16 steps at top logit 16.75
+mismatch prompt=56 (chat) at token 39: margin 0.1250 = 1.0 bf16 steps at top logit 20.88
+mismatch prompt=59 (code) at token 71: margin 0.1250 = 1.0 bf16 steps at top logit 20.38
+mismatch prompt=68 (chat) at token 93: margin 0.1250 = 1.0 bf16 steps at top logit 22.75
+mismatch prompt=81 (chat) at token 14: margin 0.0000 = 0.0 bf16 steps at top logit 19.62
+mismatch prompt=88 (code) at token 46: margin 0.0000 = 0.0 bf16 steps at top logit 17.25
+mismatch prompt=94 (chat) at token 34: margin 0.1250 = 1.0 bf16 steps at top logit 19.38
+mismatch prompt=100 (code) at token 29: margin 0.1250 = 1.0 bf16 steps at top logit 18.25
+mismatch prompt=104 (chat) at token 94: margin 0.0000 = 0.0 bf16 steps at top logit 25.00
+mismatch prompt=105 (prose) at token 11: margin 0.0000 = 0.0 bf16 steps at top logit 14.69
+mismatch prompt=107 (chat) at token 64: margin 0.1250 = 1.0 bf16 steps at top logit 19.88
+mismatch prompt=109 (code) at token 85: margin 0.1250 = 1.0 bf16 steps at top logit 22.00
+mismatch prompt=114 (prose) at token 9: margin 0.1250 = 1.0 bf16 steps at top logit 18.00
+mismatch prompt=125 (code) at token 26: margin 0.1250 = 1.0 bf16 steps at top logit 25.38
+24 prompts, 3072 tokens, 1.429 tokens/sweep, near-tie mismatches=19, real mismatches=0
+.
+1 passed in 48.32s
+
+Fetching 9 files:   0%|          | 0/9 [00:00<?, ?it/s]
+Fetching 9 files: 100%|██████████| 9/9 [00:00<00:00, 2711.06it/s]
