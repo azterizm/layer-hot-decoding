@@ -1,6 +1,6 @@
 #!/bin/zsh
 # robust downloads: retry until complete
-PY=/Users/abdiel/Code/layer-hot-decoding/.venv/bin/python
+PY=${0:A:h:h}/.venv/bin/python
 export HF_HUB_DISABLE_XET=1
 hf_get() {  # repo [allow patterns...]
   local repo=$1; shift

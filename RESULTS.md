@@ -11,7 +11,8 @@ includes the few-row Metal kernels of PR #29869, merged 2026-10-05), dflash-mlx 
 Models: `mlx-community/Qwen3-{0.6B,1.7B,4B}-4bit` (MLX), `unsloth/Qwen3-*-GGUF` Q4_0 (llama.cpp),
 drafters `z-lab/Qwen3-4B-DFlash-b16` (DFlash) and `mgoin/Qwen3-4B-speculator.dflash2` (DFlash2).
 
-Tables are printed by `python -m bench.report` from the JSON in `results/`.
+Plan: [docs/PLAN.md](docs/PLAN.md). Index of result folders: [results/README.md](results/README.md).
+Tables for steps 1-2 and 4b are printed by `python -m bench.report` from the JSON in `results/`.
 
 ## Step 1: c(K), the cost of K rows in one decode sweep
 
@@ -408,7 +409,7 @@ Where the time goes (`results/20261115-103414-profile_pipelined_4B`,
   Instruments) that requires sudo. `mx.compile` of the cycle, or a C++/llama.cpp port, would cut
   the host work and is the next thing to try if this loop is pursued.
 
-## Acceptance route (`PLAN_acceptance.md`): stopped at Gate 1
+## Acceptance route ([docs/PLAN_acceptance.md](docs/PLAN_acceptance.md)): stopped at Gate 1
 
 The bet: a head that also reads the previous token's deep state (free from the previous sweep),
 EAGLE-style, might reach ~70 %+ on the first guess and carry the layer-hot loop past 1.22x.

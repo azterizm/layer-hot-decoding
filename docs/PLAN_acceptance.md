@@ -2,7 +2,7 @@
 
 **Status (2026-11-16): stopped at Gate 1.** Stage 0 done (EAGLE-3 off the shelf 0.64-0.82x; bar
 stays 1.22x). Stage 1a: best head 29.4 % first-guess, data-limited, layer-hot input adds nothing.
-See `RESULTS.md`, section "Acceptance route".
+See [../RESULTS.md](../RESULTS.md), section "Acceptance route".
 
 ## Why this route
 

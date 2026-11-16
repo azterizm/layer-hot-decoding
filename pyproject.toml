@@ -2,6 +2,9 @@
 name = "layer-hot-decoding"
 version = "0.1.0"
 description = "Layer-hot token parallelism: proof of concept"
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "Memon Systems Ltd" }]
 requires-python = ">=3.12,<3.13"
 dependencies = ["mlx", "mlx-lm", "numpy", "huggingface_hub", "pyarrow", "pytest"]
 
