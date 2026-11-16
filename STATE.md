@@ -39,8 +39,10 @@ the chained loop under sustained load a cycle takes ~1.36 steps (cool: 1.03-1.09
   GGUFs, the converter venv. Regenerate states with
   `python -m layerhot.collect --model <m> --exits 1 2 18`; reconverting drafters needs the raw HF
   checkpoints and a converter venv (see git history of this file for the exact commands).
-- Kept in `~/models/gguf`: Q4_0 targets (0.6B/1.7B/4B), DFlash and DFlash2 drafters at Q8_0/Q4_0,
-  EAGLE-3 bf16 and Q8_0. `data/*/` keeps generated text, labels, traces and trained heads.
+- Kept in `~/models/gguf`: Q4_0 targets (0.6B/1.7B/4B), DFlash and DFlash2 drafters at Q8_0/Q4_0.
+- EAGLE-3 baseline files deleted 2026-11-16. Rebuild with `tools/eagle3_baseline.sh --prepare`
+  (pinned download, sha256-checked, recreates `.venv-convert`, converts and quantizes; tested: output
+  GGUFs byte-identical to the measured ones), or without `--prepare` to also rerun the timed sweep. `data/*/` keeps generated text, labels, traces and trained heads.
 
 ## Environment notes
 
