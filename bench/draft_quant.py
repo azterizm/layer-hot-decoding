@@ -42,6 +42,11 @@ VARIANTS = {
     # verify width: fewer draft tokens per block = fewer rows per verify
     "llama_dflash_q8_n7": ("llama", "Qwen3-4B-DFlash-b16-Q8_0.gguf", "draft-dflash", 7),
     "llama_dflash_q8_n3": ("llama", "Qwen3-4B-DFlash-b16-Q8_0.gguf", "draft-dflash", 3),
+    # acceptance route, Stage 0: off-the-shelf EAGLE-3 (AngelSlim/Qwen3-4B_eagle3)
+    "llama_eagle3_bf16_n3": ("llama", "Qwen3-4B-eagle3.gguf", "draft-eagle3", 3),
+    "llama_eagle3_bf16_n5": ("llama", "Qwen3-4B-eagle3.gguf", "draft-eagle3", 5),
+    "llama_eagle3_bf16_n7": ("llama", "Qwen3-4B-eagle3.gguf", "draft-eagle3", 7),
+    "llama_eagle3_q8_n5": ("llama", "Qwen3-4B-eagle3-Q8_0.gguf", "draft-eagle3", 5),
     "mlx_dflash_bf16": ("mlx", "none", None, None),
     "mlx_dflash_w8": ("mlx", "w8", None, None),
     "mlx_dflash_w4": ("mlx", "w4", None, None),

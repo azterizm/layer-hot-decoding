@@ -1,4 +1,4 @@
-# Session state (2026-11-15 11:10 PKT): plan steps 1-6 done
+# Session state (2026-11-16): plan steps 1-6 done; acceptance route stopped at Gate 1
 
 Plan: `~/.claude/plans/plan-to-execute-the-composed-cloud.md`. Full write-up: `RESULTS.md`.
 Result line under the idea in
@@ -18,6 +18,8 @@ Branch `poc/layer-hot` (main has no commits).
 | Step 5 | `results/20261114-234015-head_to_head` (`summary.json`, `analysis.json`) |
 | Step 6.1 drafter precision / verify width | `results/20261115-093214-draft_quant`, `results/20261115-102252-draft_quant` |
 | Step 6.2 hybrid replay | `results/20261115-091920-hybrid_replay_E1` (with DFlash traces), `...091926-hybrid_replay_E4` |
+| Acceptance route Stage 0 (EAGLE-3, DFlash2 Q8 re-measured) | `results/20261116-144913-draft_quant` |
+| Acceptance route Stage 1a (deep heads) | `results/20261116-15*-deep_head_*` |
 | Step 6.3 pipelined loop | `results/20261115-104800-ab_ours_4B_pipelined` (definitive), `...092726-ab_ours_4B_pipelined`, `...103414-profile_pipelined_4B`, `...104056-cycle_parts_4B`, `...110200-cycle_parts_4B` |
 
 ## Open question
@@ -32,6 +34,9 @@ the chained loop under sustained load a cycle takes ~1.36 steps (cool: 1.03-1.09
 - 4c / 4d: exit head adds only +3-9 % tokens inside DFlash and 27-40 % top-1 alone.
 
 ## Disk
+
+- `data/4B/h_{1,2,18,36}.npy` (2.5 GB) were re-collected for the acceptance route; delete if not continuing.
+- EAGLE-3 GGUFs in `~/models/gguf` (bf16 443 MB, Q8_0 238 MB); `.venv-convert` recreated (0.5 GB).
 
 - Drafter GGUFs in `~/models/gguf`: bf16 originals (DFlash 1.1 GB, DFlash2 2.8 GB) are only needed
   to reproduce the bf16 rows; the Q8_0/Q4_0 files are the useful ones.

@@ -408,6 +408,56 @@ Where the time goes (`results/20261115-103414-profile_pipelined_4B`,
   Instruments) that requires sudo. `mx.compile` of the cycle, or a C++/llama.cpp port, would cut
   the host work and is the next thing to try if this loop is pursued.
 
+## Acceptance route (`PLAN_acceptance.md`): stopped at Gate 1
+
+The bet: a head that also reads the previous token's deep state (free from the previous sweep),
+EAGLE-style, might reach ~70 %+ on the first guess and carry the layer-hot loop past 1.22x.
+
+### Stage 0: baselines (`results/20261116-144913-draft_quant`, all valid)
+
+Off-the-shelf EAGLE-3 (`AngelSlim/Qwen3-4B_eagle3`, one layer, 32k draft vocab, reads target
+layers 2/18/33), A-B-B-A against llama.cpp serial like step 6.1, with the bar re-measured:
+
+| variant | vs serial: all | code | prose | tokens per target pass |
+|---|---|---|---|---|
+| DFlash2, Q8_0 drafter (the bar, re-measured) | **1.22x** | 1.31x | 1.13x | 3.03 |
+| EAGLE-3 bf16, 3 draft tokens | 0.82x | 0.82x | 0.82x | 2.03 |
+| EAGLE-3 bf16, 5 | 0.73x | 0.71x | 0.75x | 2.09 |
+| EAGLE-3 bf16, 7 | 0.64x | 0.61x | 0.67x | 2.09 |
+| EAGLE-3 Q8_0, 5 | 0.82x | 0.82x | 0.82x | 2.09 |
+
+DFlash2 reproduces to the third digit (1.221x two days apart). EAGLE-3 saturates at ~2.1 tokens
+per pass (first-guess acceptance roughly 60 %, later drafts rarely survive) and loses on this
+machine. Gate 0: the bar stays at 1.22x.
+
+### Stage 1a: deep-context exit head (`layerhot/deep_head.py`, 4B, frozen model)
+
+Guessing the token after y from y's state plus the previous position's layer-18 and last-layer
+states; per-input norm, linear fusion, residual MLP, frozen reduced head. Same group split.
+
+| inputs | training data | held-out top-1 | punct/ws | function | content | tokens/cycle | at sustained cycle cost (1.36) | at GPU-only cost (1.09) |
+|---|---|---|---|---|---|---|---|---|
+| layer-1 state (affine, step 2) | 100 % | 27.1 % | 41 % | 40 % | 11 % | 1.27 | 0.93x | 1.17x |
+| deep only | 100 % | 27.8 % | 48 % | 40 % | 10 % | 1.28 | 0.94x | 1.17x |
+| layer-1 + deep + mid (layer-hot) | 25 % | 16.8 % | | | | | | |
+| layer-1 + deep + mid (layer-hot) | 50 % | 23.4 % | | | | | | |
+| **layer-1 + deep + mid (layer-hot)** | 100 % | **28.9 %** | 48 % | 43 % | 10 % | 1.29 | 0.95x | 1.18x |
+| embedding + deep + mid (plain EAGLE inputs) | 100 % | **29.4 %** | 49 % | 44 % | 10 % | 1.29 | 0.95x | 1.19x |
+
+(`results/20261116-15*-deep_head_*`.) Two findings:
+- **The layer-hot ingredient adds nothing.** Feeding the current token's layer-1 state instead of
+  its raw embedding changes first-guess accuracy by -0.5 points, within noise.
+- **The head is data-limited.** ~6 points per doubling of training data; ~96k positions reach
+  29 %. Reaching ~75 % at that rate would need ~128x the data (~15M tokens of the model's own
+  output, ~40 GPU-hours of generation on this machine), and the trend usually flattens: the public
+  EAGLE-3 head, trained on far more data, implies ~60 % here.
+
+**Gate 1 (predicted >= 1.3x at the sustained cycle cost): failed.** Even a 60 % head gives 1.18x at
+today's sustained cycle cost, below 1.22x; beating the bar would need both an EAGLE-3-class head
+and the host-overhead problem of step 6.3 solved. Stage 3 (tuning the model's early layers) would
+have to close a 29 % -> 75 % gap; nothing measured suggests laptop-scale tuning gets there.
+Stages 1b-3 not started.
+
 ## Conclusions and next steps
 
 1. **The hardware half of the idea holds on MLX.** A second token row through a hot weight sweep
@@ -432,6 +482,8 @@ Where the time goes (`results/20261115-103414-profile_pipelined_4B`,
 
 So the goal as stated, beating the reference stack with the layer-hot loop, is not met: the best
 layer-hot result is 0.87x of plain decoding, and the reference stack reaches 1.22x once tuned.
+The acceptance route (above) confirmed it: a frozen-model head with the previous token's deep state
+reaches only 29 % on this data, and the layer-hot ingredient itself adds nothing over a plain embedding.
 
 **If this line continues, in order:**
 1. Use the tuned reference stack as the baseline (DFlash2 Q8_0, 8-row verify; DFlash n-max 7 for

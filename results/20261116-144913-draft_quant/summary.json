@@ -1,0 +1,137 @@
+{
+  "llama_dflash2_q8": {
+    "code": {
+      "ratio": 1.3144894987780877,
+      "spec_tok_s": 41.50488379504548,
+      "serial_tok_s": 31.21200287765569,
+      "tokens_per_target_pass": 3.218115218115218,
+      "identical": 3,
+      "n": 3
+    },
+    "prose": {
+      "ratio": 1.128300532119485,
+      "spec_tok_s": 28.71361343603969,
+      "serial_tok_s": 25.509577882362674,
+      "tokens_per_target_pass": 2.839047016656125,
+      "identical": 2,
+      "n": 3
+    },
+    "all": {
+      "ratio": 1.2213950154487865,
+      "spec_tok_s": 35.10924861554258,
+      "serial_tok_s": 28.36079038000918,
+      "tokens_per_target_pass": 3.0285811173856714,
+      "identical": 5,
+      "n": 6
+    },
+    "discard": []
+  },
+  "llama_eagle3_bf16_n3": {
+    "code": {
+      "ratio": 0.814781025929362,
+      "spec_tok_s": 22.742650919061944,
+      "serial_tok_s": 27.5896622989649,
+      "tokens_per_target_pass": 2.0339468123163917,
+      "identical": 3,
+      "n": 3
+    },
+    "prose": {
+      "ratio": 0.822016244183479,
+      "spec_tok_s": 21.76430383245275,
+      "serial_tok_s": 26.500808726477132,
+      "tokens_per_target_pass": 2.033399534456617,
+      "identical": 2,
+      "n": 3
+    },
+    "all": {
+      "ratio": 0.8183986350564205,
+      "spec_tok_s": 22.253477375757345,
+      "serial_tok_s": 27.045235512721014,
+      "tokens_per_target_pass": 2.0336731733865046,
+      "identical": 5,
+      "n": 6
+    },
+    "discard": []
+  },
+  "llama_eagle3_bf16_n5": {
+    "code": {
+      "ratio": 0.7133226593125376,
+      "spec_tok_s": 19.206551777259676,
+      "serial_tok_s": 26.596845480931453,
+      "tokens_per_target_pass": 2.0502996621989755,
+      "identical": 3,
+      "n": 3
+    },
+    "prose": {
+      "ratio": 0.7449767996606982,
+      "spec_tok_s": 19.67730371637776,
+      "serial_tok_s": 26.43232702333945,
+      "tokens_per_target_pass": 2.1352494750891915,
+      "identical": 2,
+      "n": 3
+    },
+    "all": {
+      "ratio": 0.7291497294866178,
+      "spec_tok_s": 19.441927746818717,
+      "serial_tok_s": 26.51458625213545,
+      "tokens_per_target_pass": 2.0927745686440837,
+      "identical": 5,
+      "n": 6
+    },
+    "discard": []
+  },
+  "llama_eagle3_bf16_n7": {
+    "code": {
+      "ratio": 0.6099404091463949,
+      "spec_tok_s": 16.218177172040814,
+      "serial_tok_s": 26.25222360660916,
+      "tokens_per_target_pass": 2.0502996621989755,
+      "identical": 3,
+      "n": 3
+    },
+    "prose": {
+      "ratio": 0.6645717800879714,
+      "spec_tok_s": 17.943055482984658,
+      "serial_tok_s": 27.01432872214725,
+      "tokens_per_target_pass": 2.1352494750891915,
+      "identical": 2,
+      "n": 3
+    },
+    "all": {
+      "ratio": 0.6372560946171831,
+      "spec_tok_s": 17.080616327512736,
+      "serial_tok_s": 26.633276164378206,
+      "tokens_per_target_pass": 2.0927745686440837,
+      "identical": 5,
+      "n": 6
+    },
+    "discard": []
+  },
+  "llama_eagle3_q8_n5": {
+    "code": {
+      "ratio": 0.8148918606085547,
+      "spec_tok_s": 26.099237219713157,
+      "serial_tok_s": 31.82163416765688,
+      "tokens_per_target_pass": 2.043902860599775,
+      "identical": 3,
+      "n": 3
+    },
+    "prose": {
+      "ratio": 0.821372470648984,
+      "spec_tok_s": 24.75647473213706,
+      "serial_tok_s": 30.179298411619076,
+      "tokens_per_target_pass": 2.140936089332383,
+      "identical": 2,
+      "n": 3
+    },
+    "all": {
+      "ratio": 0.8181321656287693,
+      "spec_tok_s": 25.42785597592511,
+      "serial_tok_s": 31.000466289637977,
+      "tokens_per_target_pass": 2.0924194749660794,
+      "identical": 5,
+      "n": 6
+    },
+    "discard": []
+  }
+}
