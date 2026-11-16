@@ -35,13 +35,12 @@ the chained loop under sustained load a cycle takes ~1.36 steps (cool: 1.03-1.09
 
 ## Disk
 
-- `data/4B/h_{1,2,18,36}.npy` (2.5 GB) were re-collected for the acceptance route; delete if not continuing.
-- EAGLE-3 GGUFs in `~/models/gguf` (bf16 443 MB, Q8_0 238 MB); `.venv-convert` recreated (0.5 GB).
-
-- Drafter GGUFs in `~/models/gguf`: bf16 originals (DFlash 1.1 GB, DFlash2 2.8 GB) are only needed
-  to reproduce the bf16 rows; the Q8_0/Q4_0 files are the useful ones.
-- `data/*/` keeps generated text, labels, heads; hidden states were deleted (regenerate with
-  `python -m layerhot.collect --model <m> --exits 1 2 4 8`).
+- Deleted 2026-11-16: all stored hidden states (`data/*/h_*.npy`), the bf16 DFlash/DFlash2 drafter
+  GGUFs, the converter venv. Regenerate states with
+  `python -m layerhot.collect --model <m> --exits 1 2 18`; reconverting drafters needs the raw HF
+  checkpoints and a converter venv (see git history of this file for the exact commands).
+- Kept in `~/models/gguf`: Q4_0 targets (0.6B/1.7B/4B), DFlash and DFlash2 drafters at Q8_0/Q4_0,
+  EAGLE-3 bf16 and Q8_0. `data/*/` keeps generated text, labels, traces and trained heads.
 
 ## Environment notes
 
