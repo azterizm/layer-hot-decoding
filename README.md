@@ -2,8 +2,8 @@
 
 A proof of concept by [Memon Systems Ltd](https://memonsystems.com). November 2026.
 
-**Status: done. The idea does not beat the existing tools on this machine.** The work stopped at a
-planned gate. All code, data summaries and logs are here so the result can be checked.
+The work is done. On this machine the idea does not beat the existing tools, and the work stopped
+at a planned gate. All code, data summaries and logs are here so the result can be checked.
 
 ## The idea
 
@@ -12,10 +12,8 @@ loaded, it could also run a second token through the same layer for little extra
 token is a guess, made from the first token's state after only 1-8 layers. The full model then
 checks the guess. A wrong guess is thrown away, so the output is the same as plain greedy decoding.
 
-This splits into two questions:
-
-1. **Hardware.** How much does a second token row cost in one pass over the weights?
-2. **Model.** How often is a guess from a shallow layer right?
+So there are two things to measure. The first is how much a second token row costs in one pass
+over the weights. The second is how often a guess from a shallow layer is right.
 
 ## Result
 

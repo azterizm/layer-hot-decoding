@@ -12,7 +12,7 @@ Everything ran on one MacBook Air M4 (Mac16,12), 16 GB, macOS 26.6.2. Apple sili
 | dflash-mlx | 0.1.8 (separate venv) |
 | llama.cpp | `e3483e40b02326383a54a23ae71f2bfa9f81181a` (2026-11-14 master) |
 
-Full package lists: [../env/requirements-main.txt](../env/requirements-main.txt) and
+The full package lists are [../env/requirements-main.txt](../env/requirements-main.txt) and
 [../env/requirements-dflash.txt](../env/requirements-dflash.txt).
 
 ## Setup
@@ -101,4 +101,4 @@ with `python -m layerhot.collect --model <m> --exits 1 2 18`.
 - Photos' `mediaanalysisd` uses 2-3 cores for minutes at a time on AC power.
 - The local llama-server build ignores per-request speculative settings, so serial and speculative
   are two servers side by side (`bench/draft_quant.py`).
-- Slow network: set `HF_HUB_DISABLE_XET=1` and resume large files with `curl -C -`.
+- The network is slow, so set `HF_HUB_DISABLE_XET=1` and resume large files with `curl -C -`.

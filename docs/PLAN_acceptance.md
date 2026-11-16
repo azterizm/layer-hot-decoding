@@ -1,7 +1,8 @@
 # Acceptance route: plan
 
-**Status (2026-11-16): stopped at Gate 1.** Stage 0 done (EAGLE-3 off the shelf 0.64-0.82x; bar
-stays 1.22x). Stage 1a: best head 29.4 % first-guess, data-limited, layer-hot input adds nothing.
+This route stopped at Gate 1 on 2026-11-16. Stage 0 found EAGLE-3 off the shelf at 0.64-0.82x, so
+the bar stays at 1.22x. In Stage 1a the best head was right 29.4 % of the time on the first guess. It
+was limited by training data, and the layer-hot input added nothing.
 See [../RESULTS.md](../RESULTS.md), section "Acceptance route".
 
 ## Why this route
@@ -12,7 +13,7 @@ Steps 1-6 (see `RESULTS.md`) showed the hardware half of the idea holds on MLX (
 DFlash2, Q8_0 drafter; 1.52x on code with DFlash at 7 draft tokens). The only lever that can move
 the layer-hot loop past that is acceptance.
 
-**Key observation.** Every exit head so far read only the *current* token's shallow state h_E(y).
+Every exit head so far read only the *current* token's shallow state h_E(y).
 But each sweep already finishes the *previous* token through all 36 layers, so its deep state
 f(p-1) is free. EAGLE-style drafters use exactly that state plus the current token's embedding,
 and reach ~60-80 % on the first guess in published results. A head that reads f(p-1) *and*
@@ -33,9 +34,9 @@ host-side overhead is fixed, or both.
 
 ## Bars to beat
 
-- llama.cpp DFlash2 + Q8_0 drafter: **1.22x** of its serial (1.31x code, 1.13x prose)
-- llama.cpp DFlash, 7 draft tokens: 1.19x (**1.52x code**)
-- llama.cpp EAGLE-3 with the public `AngelSlim/Qwen3-4B_eagle3` head: **not measured yet** (Stage 0)
+- llama.cpp DFlash2 with a Q8_0 drafter runs at 1.22x of its serial (1.31x code, 1.13x prose).
+- llama.cpp DFlash with 7 draft tokens runs at 1.19x (1.52x on code).
+- llama.cpp EAGLE-3 with the public `AngelSlim/Qwen3-4B_eagle3` head is not measured yet (Stage 0).
 
 ## Stages (each ends in a gate; stop at the first failed gate)
 
@@ -49,7 +50,7 @@ host-side overhead is fixed, or both.
   ~2.5 GB. Generate more of the model's own output (target ~0.5-1M tokens with a larger prompt
   set) only if Stage 1 shows the head is data-limited; on this machine 4B generates ~100 tok/s
   batched, so 1M tokens is ~3 h of GPU.
-- **Gate 0:** if EAGLE-3 on llama.cpp is already >= 1.5x overall, the layer-hot head must beat that
+- At Gate 0, if EAGLE-3 on llama.cpp is already >= 1.5x overall, the layer-hot head must beat that
   number, not 1.22x; re-state the targets before Stage 1.
 
 ### Stage 1: deep-context exit head, offline (frozen model, lossless; ~1 day)
@@ -65,7 +66,7 @@ Variants, cheapest first:
   difference is the measured value of the layer-hot ingredient itself.
 - Report first-guess and chained acceptance by token class, replay tokens/cycle, and predicted
   speed with both the sustained (1.36-step) and GPU-only (1.09-step) cycle costs.
-- **Gate 1:** predicted >= 1.3x at the sustained cycle cost *and* above the Stage 0 EAGLE-3 number.
+- To pass Gate 1, the predicted speed must be >= 1.3x at the sustained cycle cost *and* above the Stage 0 EAGLE-3 number.
   If acceptance stays below ~60 %, go to Stage 3 only if the gap looks closable by tuning;
   otherwise stop and adopt the reference stack.
 
@@ -77,7 +78,7 @@ Variants, cheapest first:
 - `tests/test_lossless.py` (tie-window rule unchanged), then the definitive A-B-B-A
   (12 prompts x 2 passes, sustained load) against mlx-lm, and absolute tok/s next to llama.cpp
   DFlash2 Q8_0 and EAGLE-3 on the same prompts.
-- **Gate 2 (success):** >= 1.22x of mlx-lm sustained, i.e. beating the tuned reference stack.
+- Gate 2 means success, at >= 1.22x of mlx-lm under sustained load, which beats the tuned reference stack.
 
 ### Stage 3: only if acceptance is the limit (changes or extends the model; days)
 
@@ -95,10 +96,11 @@ Variants, cheapest first:
 
 ## Resources
 
-- Disk: 12 GB free. Needs ~2.5 GB features, 0.4 GB EAGLE-3 head + GGUFs, 0.5 GB converter venv.
-  If space runs short: delete the bf16 drafter GGUFs (3.9 GB; the Q8_0/Q4_0 copies are better).
-- GPU time: Stage 0 ~2 h of timed runs; Stage 1 ~2-4 h of training (+3 h if more data is needed).
-- Network ~1 MB/s: the only large download is the EAGLE-3 head (~8 min).
+- The disk has 12 GB free. This needs ~2.5 GB of features, 0.4 GB for the EAGLE-3 head and GGUFs,
+  and 0.5 GB for the converter venv. If space runs short, delete the bf16 drafter GGUFs (3.9 GB; the
+  Q8_0/Q4_0 copies are better).
+- Stage 0 needs ~2 h of timed GPU runs and Stage 1 ~2-4 h of training (+3 h if more data is needed).
+- The network runs at ~1 MB/s. The only large download is the EAGLE-3 head (~8 min).
 
 ## Risks
 
