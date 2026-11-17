@@ -8,6 +8,9 @@ authors = [{ name = "Memon Systems Ltd" }]
 requires-python = ">=3.12,<3.13"
 dependencies = ["mlx", "mlx-lm", "numpy", "huggingface_hub", "pyarrow", "pytest"]
 
+[project.optional-dependencies]
+cloud = ["modal>=1.6"]  # Phase 0 on Modal (cloud/); torch runs only inside the Modal images
+
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]

@@ -27,6 +27,7 @@ Qwen3 0.6B, 1.7B and 4B, 4-bit, on a MacBook Air M4 (16 GB).
 | Best existing tool, tuned (llama.cpp DFlash2, Q8_0 drafter) | **1.22x** of llama.cpp serial (1.31x code, 1.13x prose) |
 | Off-the-shelf EAGLE-3 on llama.cpp | 0.64-0.82x |
 | Guess head with previous token's deep state (EAGLE-style) | 29 % right. Limited by training data. The layer-hot input adds nothing over the plain embedding. |
+| Same head retried with 500x the data (Phase 0, bf16, cloud H100s) | 73.9 % right with a one-block head. The layer-hot input adds 2.2 points over the plain embedding, below the 3-point bar. |
 
 Output of the loop matches plain greedy decoding, except where the model's top two choices are tied
 within 1-2 bf16 rounding steps (batched vs one-row rounding). Details in [RESULTS.md](RESULTS.md).
@@ -38,6 +39,7 @@ within 1-2 bf16 rounding steps (batched vs one-row rounding). Details in [RESULT
 | [RESULTS.md](RESULTS.md) | Full write-up: every table, gate decision and caveat |
 | [docs/PLAN.md](docs/PLAN.md) | The original plan, written before any measurement |
 | [docs/PLAN_acceptance.md](docs/PLAN_acceptance.md) | Follow-up plan after step 6. Stopped at its Gate 1. |
+| [docs/PLAN_sram_expansion.md](docs/PLAN_sram_expansion.md) | Architecture plan: ANE-SRAM residency, heterogeneous co-execution & expansion |
 | [docs/REPRODUCE.md](docs/REPRODUCE.md) | Setup, models, the command for each step, measurement rules |
 | [results/README.md](results/README.md) | Which results folder backs which number |
 

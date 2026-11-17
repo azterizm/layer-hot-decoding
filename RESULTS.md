@@ -1,6 +1,7 @@
 # Layer-hot decoding: results
 
-All runs used a MacBook Air M4 (Mac16,12), 16 GB, fanless, on the charger. Every number below has an
+All runs except Phase 0 used a MacBook Air M4 (Mac16,12), 16 GB, fanless, on the charger. Phase 0 ran
+on Modal H100s and is described in its own section. Every number below has an
 `env.json` next to it in `results/<timestamp>/`. Rounds that tripped a discard rule (not on
 charger, CPU idle < 90 % before the round, thermal limit < 100, swap growth, free disk < 5 GB)
 are excluded from medians; the benches wait for a quiet machine before each round (Photos'
@@ -461,6 +462,96 @@ and the host-overhead problem of step 6.3 solved. Stage 3 (tuning the model's ea
 have to close a 29 % -> 75 % gap; nothing measured suggests laptop-scale tuning gets there.
 Stages 1b-3 not started.
 
+## Phase 0: cloud retrial of the layer-hot head ([docs/PLAN_sram_expansion.md](docs/PLAN_sram_expansion.md), section 0)
+
+Stage 1a stopped at 29 % with 98k training positions, and the layer-1 input scored 0.5 points below
+the plain embedding on one seed. Phase 0 asked whether that was only a lack of data. It repeated the
+test with 500x the data on cloud GPUs and two larger heads.
+
+This is the one part of the project that did not run on the M4. It ran on Modal. The target was
+`Qwen/Qwen3-4B` in bf16, not the 4-bit MLX model. Generation used vLLM 0.11.0 on up to 8 H100s.
+Teacher forcing and training used PyTorch 2.8 and transformers 4.57.1 on one H100. The code is in
+`cloud/` and the results in `results/20261117-131217-phase0_main`. The run used 3.6 GPU-hours and
+cost $15.6 by the run's own ledger ($14.9 on Modal's billing report), against a $40 cap.
+
+The corpus has 130,000 prompts from pinned, ungated datasets: 35 % chat (UltraChat, cut at user
+turn 1 to 3, and OpenAssistant), 35 % code (Magicoder OSS-Instruct and CodeFeedback, weighted to
+Python, Rust and JS/TS), 20 % prose (wikitext-103 openings, continued raw) and 10 % math
+(MetaMathQA). It is split by conversation, problem or article into 127,000 train, 1,000
+validation and 2,000 test prompts. One greedy completion of up to 512 tokens per prompt, thinking
+off, gave 57.8M generated tokens. 11.6 % of the sequences ended in a repetition loop and were left
+out, which leaves 48.9M training positions. The label is the bf16 model's own teacher-forced
+argmax. It equals the generated token 99.2 % of the time.
+
+The PyTorch port was checked first. Trained on the Mac run's own sequences with the Stage 1a
+settings, it gave 28.3 % with the layer-1 input (Mac 28.9 %), 28.8 % with the embedding (Mac
+29.4 %) and 29.5 % with the deep state only (Mac 27.8 %). The hooks capture the residual stream
+before the final norm exactly.
+
+All heads trained side by side in one pass over the data. Every head saw the same rows in the same
+order, and each h_1 head had an e twin with the same architecture, learning rate, seed and steps.
+Each head ends in the model's frozen final norm and a frozen 32k-row slice of its output layer,
+plus an abstain class, as in Stage 1a. The test set was scored once, after the gate rule was fixed
+from validation numbers: 88,253 positions, up to 50 per sequence, from the 1,770 test sequences
+that did not end in a loop.
+
+| Head | Parameters | Learning rate | h_1 input | e input | h_1 minus e, points (95 % interval) |
+|---|---|---|---|---|---|
+| B: one decoder block, D=2048 | 89M | 1e-4 | **73.9 %** | 71.7 % | 2.18 (1.95 to 2.39) |
+| B | 89M | 3e-4 | 66.1 % | 63.9 % | 2.24 (2.02 to 2.44) |
+| A-large: 4 residual MLP blocks | 334M | 1e-4 | 72.2 % | 72.0 % | 0.21 (0.03 to 0.39) |
+| A-parity: the Stage 1a head | 59M | 3e-4 | 68.5 % | 68.3 % | 0.14 (-0.05 to 0.32) |
+| A-parity, 3 seeds | 59M | 1e-3 | 64.6-64.7 % | 63.9-64.0 % | 0.63-0.71 |
+| A-parity, deep and mid states only | 52M | 3e-4 | 63.1 % | | |
+
+Head B reads the current-token stream with causal self-attention and the layer-18 and layer-36
+states of all earlier positions with cross-attention. The MLP heads read only the previous
+position's deep states, as in Stage 1a. The intervals are a paired bootstrap over test prompts.
+A-large at 3e-4 diverged (3.1 %). The seeds change only the initial weights, and their standard
+deviation is 0.04-0.05 points.
+
+The best head, B with the layer-1 input, by kind and token class:
+
+| chat | code | math | prose | punct/ws | function | content | subword | Mac test split |
+|---|---|---|---|---|---|---|---|---|
+| 63.1 % | 78.5 % | 89.8 % | 79.9 % | 88 % | 74 % | 62 % | 80 % | 70.8 % |
+
+The last column is the Mac run's 22,639 test positions, relabeled by the bf16 model. The head
+guesses a token 97.5 % of the time. Guesses with confidence 0.9 or more cover 50.6 % of positions
+and are right 97.6 % of the time.
+
+Validation top-1 as the data grew (one pass, so each row is seen once):
+
+| Rows seen | 0.4M | 1.6M | 6.4M | 12.8M | 25.6M | 48.9M |
+|---|---|---|---|---|---|---|
+| B, h_1 | 24.1 % | 43.7 % | 59.5 % | 65.6 % | 70.4 % | 73.4 % |
+| B, e | 19.6 % | 40.4 % | 54.8 % | 61.8 % | 67.7 % | 71.2 % |
+| A-large, h_1 | 34.9 % | 48.7 % | 59.6 % | 63.9 % | 68.1 % | 71.9 % |
+| A-parity, h_1 | 36.6 % | 48.7 % | 57.4 % | 60.6 % | 64.7 % | 68.0 % |
+
+The model gate passed. The best head by validation reaches 73.9 % top-1 on the test set, above
+65.0 %, and 78.5 % on code, above 75.0 %. The hypothesis gate failed. On that head's architecture
+the layer-1 input beats the embedding by 2.18 points, which is real (the interval excludes zero)
+but below the 3.0-point bar. On the MLP heads the difference is 0.1-0.7 points. The gap on head B
+also shrank as data grew: 4.7 points at 6.4M rows, 3.8 at 12.8M, 2.7 at 25.6M and 2.2 at the end.
+By the rule fixed before the test set was scored, layer-hot stays retired.
+
+Three findings:
+- Stage 1a was limited by data, as it said. With 500x the data the same head goes from 29 % to
+  68.5 %, and a one-block transformer head reaches 73.9 %. Each doubling of data still added about
+  3 points at the end.
+- The layer-hot input adds little, and less as the head gets more data. What helps is the deep
+  context of earlier positions, which a plain EAGLE-style head also has.
+- On paper the best head gives (1 + 0.739) / 1.36 = 1.28x at the sustained cycle cost, above the
+  1.22x bar. That number is optimistic. It is for a bf16 target, not the 4-bit one. The 1.36 cycle
+  cost was measured with the small affine exit head, and head B plus its output slice reads about
+  350 MB per guess in bf16, about 15 % of a 4B Q4 sweep. It counts one guess per cycle only. The
+  plain-embedding head gives 1.26x on the same arithmetic, so this is not a case for layer-hot.
+
+The optional second pass was not run. Its purpose was to rescue a model gate that failed for lack of
+training, and the model gate passed by 8 points on validation. The head weights were deleted after
+scoring. The generated tokens and the corpus stay on the Modal volume `layerhot-phase0` for Pillar I.
+
 ## Conclusions and next steps
 
 1. The hardware half of the idea holds on MLX. A second token row through a hot weight sweep
@@ -487,6 +578,8 @@ So the goal as stated, beating the reference stack with the layer-hot loop, is n
 layer-hot result is 0.87x of plain decoding, and the reference stack reaches 1.22x once tuned.
 The acceptance route (above) confirmed it: a frozen-model head with the previous token's deep state
 reaches only 29 % on this data, and the layer-hot ingredient itself adds nothing over a plain embedding.
+Phase 0 retried that head with 500x the data on cloud GPUs. The head reached 73.9 %, but the layer-hot
+input added only 2.2 points over the plain embedding, below the 3-point bar, so layer-hot stays retired.
 
 If this line continues, the next steps in order are:
 1. Use the tuned reference stack as the baseline (DFlash2 Q8_0, 8-row verify; DFlash n-max 7 for

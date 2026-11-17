@@ -1,0 +1,17 @@
+{
+  "best": "B/h1/lr0.0001/s0",
+  "best_val_top1": 0.7344777291596545,
+  "arch": "B",
+  "lr": 0.0001,
+  "h1": "B/h1/lr0.0001/s0",
+  "e": "B/e/lr0.0001/s0",
+  "thresholds": {
+    "model_top1": 0.65,
+    "model_code_top1": 0.75,
+    "hyp_pass_points": 3.0,
+    "hyp_disproven_points": 1.0
+  },
+  "rule": "Final scoring of the Phase 0 heads and the Phase 0 gate.\n\nThe gate rule is written to the volume from validation numbers alone, before the test set is scored:\n- the best head by validation top-1 (h_1 and e arms only) must reach 65.0 % top-1 overall or 75.0 % on code;\n- on that head's architecture, at the learning rate with the best mean validation top-1 of the two arms\n  (seed 0), h_1 must beat e by 3.0 points or more on the test set. Under 1.0 point means the layer-hot\n  input is disproven; 1.0 to 3.0 fails the gate as a small effect.\nBoth must pass to revive layer-hot.\n",
+  "train_summary_sha256": "ddb21e58cd50a8541de7ca25b5ead80de7623b5a7edd72eb7bd8180d0abf5779",
+  "written_at": 1794902925.7506216
+}

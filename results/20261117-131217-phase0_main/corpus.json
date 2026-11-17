@@ -1,0 +1,175 @@
+{
+  "summary": {
+    "n": 130000,
+    "kind": {
+      "code": 45500,
+      "chat": 45500,
+      "math": 13000,
+      "prose": 26000
+    },
+    "kind_share": {
+      "code": 0.35,
+      "chat": 0.35,
+      "math": 0.1,
+      "prose": 0.2
+    },
+    "source": {
+      "magicoder": 23938,
+      "ultrachat": 42048,
+      "metamath": 13000,
+      "wikitext": 26000,
+      "oasst": 3452,
+      "codefeedback": 21562
+    },
+    "split": {
+      "train": 127000,
+      "val": 1000,
+      "test": 2000
+    },
+    "kind_by_split": {
+      "train": {
+        "code": 44450,
+        "chat": 44450,
+        "math": 12700,
+        "prose": 25400
+      },
+      "val": {
+        "code": 350,
+        "prose": 200,
+        "chat": 350,
+        "math": 100
+      },
+      "test": {
+        "prose": 400,
+        "chat": 700,
+        "code": 700,
+        "math": 200
+      }
+    },
+    "code_lang": {
+      "other": 9100,
+      "python": 20475,
+      "rust": 6825,
+      "jsts": 9100
+    },
+    "prompt_tokens": {
+      "n": 130000,
+      "min": 13,
+      "mean": 232.0,
+      "median": 134,
+      "p95": 730,
+      "max": 1024
+    },
+    "prompt_tokens_by_kind": {
+      "chat": {
+        "n": 45500,
+        "min": 13,
+        "mean": 362.3,
+        "median": 321,
+        "p95": 893,
+        "max": 1024
+      },
+      "code": {
+        "n": 45500,
+        "min": 17,
+        "mean": 231.3,
+        "median": 230,
+        "p95": 442,
+        "max": 1024
+      },
+      "math": {
+        "n": 13000,
+        "min": 20,
+        "mean": 76.6,
+        "median": 71,
+        "p95": 126,
+        "max": 945
+      },
+      "prose": {
+        "n": 26000,
+        "min": 62,
+        "mean": 83.0,
+        "median": 81,
+        "p95": 102,
+        "max": 245
+      }
+    }
+  },
+  "notes": [
+    "chat: 3452 oasst English roots kept, 42048 ultrachat"
+  ],
+  "n_shards": 67,
+  "val_test_shards": 3,
+  "shard_sizes": [
+    1000,
+    1000,
+    1000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    2000,
+    1000
+  ],
+  "anchor_prompts_hash": "806e5bcf4d091ca1feb86bd3e2af40962b54837f6adf9beb58588d299dd64d1a",
+  "anchor_prompts_hash_local": "806e5bcf4d091ca1feb86bd3e2af40962b54837f6adf9beb58588d299dd64d1a",
+  "anchor_prompts_match": true
+}

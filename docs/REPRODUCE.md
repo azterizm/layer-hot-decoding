@@ -76,6 +76,7 @@ Run from the repo root with `.venv/bin/python` unless noted. Each command writes
 | Stage 1a, deep heads | `python -m layerhot.deep_head --inputs shallow1 deep mid` (also `deep`, `emb deep mid`, `--train-frac 0.25`) |
 | Tables | `python -m bench.report --mlx ... --llama ... --acceptance ... --tree ...` |
 | Unit check | `LH_MODEL=0.6B LH_EXIT=1 LH_KMAX=4 pytest` (env vars listed in `tests/test_lossless.py`) |
+| Phase 0 (Modal) | `uv pip install --python .venv/bin/python "modal>=1.6"`, then `.venv/bin/modal run -m cloud.app::step1_selftest` through `step7_fetch` (stages and flags in the header of `cloud/app.py`) |
 
 Each script's header has its full usage.
 

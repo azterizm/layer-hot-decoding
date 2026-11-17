@@ -13,6 +13,7 @@ Raw evidence for every number in [../RESULTS.md](../RESULTS.md). One folder per 
 | `raw.json` | Every timing before medians. |
 | `acceptance.json`, `tree_top2.json`, `deep_head.json`, `hybrid_replay.json` | Offline results (accuracy, replay, predicted speed). |
 | `*.log` | llama.cpp server logs, kept as printed. |
+| `evaluate.json`, `gate_rule.json`, `curve.jsonl`, `train_*.json`, `generation.json`, `corpus.json`, `pilot.json` | Phase 0 only (cloud run): test metrics, the gate rule written before the test was scored, the validation curve, training plan and summary, generation and corpus stats, and the pilot's anchor check. |
 | `test.log` | Output of `tests/test_lossless.py` for that configuration. |
 
 ## Index by step
@@ -34,6 +35,7 @@ Raw evidence for every number in [../RESULTS.md](../RESULTS.md). One folder per 
 | 6.3 Where the time goes | `20261115-103414-profile_pipelined_4B`, `20261115-104056-cycle_parts_4B`, `20261115-110200-cycle_parts_4B` | `bench/profile_pipelined.py`, `bench/cycle_parts.py` |
 | Acceptance route, Stage 0 (EAGLE-3, DFlash2 re-measured) | `20261116-144913-draft_quant` | `bench/draft_quant.py`, `tools/eagle3_baseline.sh` |
 | Acceptance route, Stage 1a (deep heads) | `20261116-152329-deep_head_shallow1+deep+mid`, `..._frac0.25`, `..._frac0.5`, `20261116-153437-deep_head_deep`, `20261116-153921-deep_head_emb+deep+mid` | `layerhot/deep_head.py` |
+| Phase 0, cloud retrial on Modal H100 | `20261117-131217-phase0_main` (`summary.json`, `evaluate.json`) | `cloud/app.py` |
 
 ## Superseded runs
 
@@ -49,4 +51,5 @@ Kept for the record, not quoted.
 ## Not in the repo
 
 Hidden states, generated text, trained heads and model files live in `data/` and `~/models/gguf`
-and are not committed (size). See [../docs/REPRODUCE.md](../docs/REPRODUCE.md) to regenerate them.
+and are not committed (size). For Phase 0, the generated tokens and the corpus stay on the Modal
+volume `layerhot-phase0`. The head weights were deleted after scoring. See [../docs/REPRODUCE.md](../docs/REPRODUCE.md) to regenerate them.
